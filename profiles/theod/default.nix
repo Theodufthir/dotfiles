@@ -16,8 +16,7 @@
     wofi
     xdg-desktop-portal-hyprland
     eww
-    material-symbols
-    material-design-icons
+    tabler-icons
   ]);
 
   fonts.fontconfig.enable = true;
@@ -33,13 +32,14 @@
     enableCompletion = true;
     
     shellAliases = {
-      edit-config-nixos = "cd /etc/nixos && sudo vim ./$1 && cd -";
-      edit-config-eww = "cd ~/.config/eww && vim ./$1 && cd -";
+      edit-config-nixos = "cd /etc/nixos && sudo vim . && cd -";
+      edit-config-eww = "cd ~/.config/eww && vim . && cd -";
       rebuild-nixos = "sudo nixos-rebuild switch";
-      battery-info = ''upower -i $(upower --dump | sed -rn "s/Device:\s*(.*BAT.*?)\s*$/\1/p")'';
+      battery-info = ''upower -i $(upower --dump | sed -rn 's/Device:\s*(.*BAT.*?)\s*$/\1/p')'';
       list-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --list-generations"; 
-      delete-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations $1";
-      delete-generations-all = ''for gen in $(list-generations | sed -rn "s/\s*([0-9]+).*/\1/p" | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
+      delete-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
+      delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
+      clean-tmp-edit = ''find . -name '*~' -exec rm -rfi {} \;'';
     };
   };
 

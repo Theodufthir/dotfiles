@@ -90,15 +90,10 @@
     # jack.enable = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.theod = {
-    isNormalUser = true;
-    description = "Théo Dufour";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
-  };
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   boot.kernelPackages = pkgs-unstable.linuxPackages_latest;
+
+  virtualisation.docker.enable = true;
 
   environment.systemPackages = (with pkgs-unstable; [
     kitty
