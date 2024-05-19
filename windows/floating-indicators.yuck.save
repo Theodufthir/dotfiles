@@ -1,0 +1,29 @@
+(include "windows/metric.yuck")
+
+(defwindow volume-indicator [monitor ?timeout]
+  :monitor monitor
+  :stacking "overlay"
+  :geometry (geometry :y "10%"
+                      :anchor "bottom center")
+  (floating-indicator
+    :title "Volume"
+    :value volume
+    :onchange "scripts/audio/setVolume.sh {}"))
+
+(defwindow luminosity-indicator [monitor ?timeout]
+  :monitor monitor
+  :stacking "overlay"
+  :geometry (geometry :y "10%"
+                      :anchor "bottom center")
+  (floating-indicator
+    :title "Luminosity"
+    :value luminosity
+    :onchange "scripts/screen/setLuminosity.sh {}"))
+
+(defwidget floating-indicator [title value ?onchange]
+  (box :orientation "v"
+       :class "base"
+    (box :class "label" title)
+    (metric :label ""
+            :value value
+            :onchange onchange)))

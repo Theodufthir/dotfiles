@@ -1,0 +1,20 @@
+@import "theme.scss"
+
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+//Global Styles
+.base {
+  background-color: $background;
+  color: $font-color;
+  border-radius: 6px;
+  padding: 0px 5px;
+}
+
+@import "windows/bar.scss"
+@import "windows/bluetooth.scss"
+@import "windows/metric.scss"
+@import "windows/floating-indicators.scss"
+@import "windows/icons.scss"
+@import "windows/sandbox.scss"

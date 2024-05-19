@@ -1,0 +1,26 @@
+(defwindow bluetooth-menu []
+  :geometry (geometry :x "0.3%"
+                      :y 10
+                      :anchor "top right")
+  (eventbox :onhoverlost "eww close bluetooth-menu"
+    (bluetooth-devices)))
+
+(defwidget bluetooth-devices []
+  (box :class "base bluetooth-devices"
+       :orientation "v"
+       :spacing 5
+    "Paired :"
+    (for device-data in {jq(bluetooth-devices, '[.[] | select(.Paired == true)]')}
+       (bluetooth-device :device-data device-data))))
+
+(defwidget bluetooth-device [device-data]
+  (box :orientation "h"
+       :space-evenly false
+       :spacing 5
+       :class "bluetooth-device"
+    "${device-data.Name} ${replace(device-data.BatteryPercent ?: "", '([0-9]+)', ' (\\1%)')}"
+    (button :onclick "scripts/bluetooth/toggle-device-connection.sh ${device-data.Mac}"
+            :halign "end"
+            :hexpand true
+      {device-data.Connected ? "Disconnect" : "Connect"})))
+

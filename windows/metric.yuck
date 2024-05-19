@@ -1,0 +1,33 @@
+(defwidget hiding-item [id orientation]
+  (eventbox :onhover "eww update hi-reveal='${jq(hi-reveal, '."${id}" = true')}'"
+            :onhoverlost "eww update hi-reveal='${jq(hi-reveal, '."${id}" = false')}'"
+    (box :orientation { matches(orientation, 'up|down') ? "v" : "h" }
+         :class "hiding-item"
+         :space-evenly false
+      (children :nth 0)
+      (revealer :transition "slide${orientation}"
+                :reveal {jq(hi-reveal, '."${id}"')}
+        (children :nth 1)))))
+
+(defwidget bar-metric [label value ?min ?max]
+  (box :orientation "h"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :class "bar-metric"
+           :min {min ?: 0}
+           :max {max ?: 101}
+           :active false
+           :value value)))
+
+(defwidget circular-metric [label value]
+  (box :orientation "h"
+       :space-evenly false
+    (box :class "label" label)
+    (circular-progress
+           :class "circular-metric"
+           :width 22
+           :height 22
+           :thickness 6
+           :clockwise true
+           :start-at 25
+           :value value)))

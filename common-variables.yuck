@@ -1,0 +1,36 @@
+(defpoll time :interval "10s"
+  "date '+%H:%M'")
+
+(defpoll volume :interval "100ms"
+  "scripts/audio/get-volume.sh")
+
+(defpoll luminosity :interval "100ms"
+  "scripts/screen/get-luminosity.sh")
+
+(defpoll wm-monitors :interval "100ms"
+  "scripts/wm/get-monitors-infos.sh")
+
+(defpoll wm-active-workspace :interval "100ms"
+  "scripts/wm/get-active-workspace-infos.sh")
+
+(defpoll tabler-icons :interval "10000h"
+ 'scripts/utils/get-tabler-icons.sh \'["bluetooth","wifi","volume","sun$","cpu$"]\' regexFilter')
+
+
+(deflisten bluetooth-controllers
+  "scripts/utils/poll-to-changes-stream.sh 'scripts/bluetooth/get-controllers-infos.sh' 0.1")
+
+(deflisten bluetooth-devices
+  "scripts/utils/poll-to-changes-stream.sh 'scripts/bluetooth/get-devices-infos.sh' 0.1")
+
+(deflisten wifi-devices :initial ""
+  "scripts/wifi/stream-devices-infos.sh")
+
+(deflisten player-metadatas :initial ""
+  "scripts/media/stream-player-metadatas.sh")
+
+(deflisten player-status :initial ""
+  "scripts/media/stream-player-status.sh")
+
+
+(defvar hi-reveal '{}')

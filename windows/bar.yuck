@@ -1,0 +1,87 @@
+(include "windows/metric.yuck")
+
+(defwindow bar
+  :geometry (geometry :y "0.9%"
+                      :width "99%"
+                      :anchor "top center")
+  :exclusive true
+  (bar))
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (music)
+    (sidestuff)))
+
+(defwidget sidestuff []
+  (box :class "base"
+       :orientation "h"
+       :space-evenly false
+       :spacing 10
+       :halign "end"
+    (hiding-item :id "bar-volume"
+                 :orientation "left"
+      (tabler-icon :name "volume")
+      (scale :class "bar-metric"
+             :value volume
+             :onchange "scripts/audio/set-volume.sh {}"))
+    (hiding-item :id "bar-luminosity"
+                 :orientation "left"
+      (tabler-icon :name "sun")
+      (scale :class "bar-metric"
+             :value luminosity
+             :onchange "scripts/screen/set-luminosity.sh {}"
+             :min 2
+             :max 200)) 
+    (hiding-item :id "bar-resources"
+                 :orientation "left"
+      (tabler-icon :name "cpu")
+      (box :orientation "h"
+        (circular-metric :label "AM"
+                         :value {EWW_RAM.used_mem_perc})
+        (circular-metric :label "CPU"
+                         :value {EWW_CPU.avg})))
+    (bluetooth)
+    (wifi)
+    (battery)
+    time))
+
+(defwidget workspaces []
+  (box :class "base workspaces"
+       :orientation "h"
+       :space-evenly true
+       :halign "start"
+       :spacing 10
+    (for id in "[1, 2, 3, 4, 5, 6, 7, 8, 9]"
+      (workspaceButton :id id))))
+
+(defwidget workspaceButton [id]
+  (button :onclick "scripts/wm/set-active-workspace.sh ${id}"
+          :class { wm-active-workspace.id == id ? "active" : "" }
+          :halign "center"
+          :valign "center"
+          :width { wm-active-workspace.id == id ? 10 : 8 }
+          :height { wm-active-workspace.id == id ? 10 : 8 }))
+
+(defwidget music []
+  (box :class "base"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :visible {player-status == "Playing"}
+    (label :limit-width 50
+           :show-truncated true
+           :text "${player-metadatas.title}  by  ${player-metadatas.author}")))
+
+(defwidget bluetooth []
+  (button :onclick "eww open bluetooth-menu --toggle --screen ${jq(wm-monitors, '.[] | select(.focused == true).id')}"
+    (tabler-icon :name {jq(bluetooth-controllers, '.[0].Powered') ? "bluetooth" : "bluetooth-off"})))
+
+(defwidget wifi []
+  (button :onclick "#does nothing"
+    (tabler-icon :name {jq(wifi-devices, 'any (.general.type == "wifi" and .general.state == "100 (connected)")') ? "wifi" : "wifi-off"})))
+
+(defwidget battery []
+  (box :orientation "h"
+       :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? "low" : ""}"
+    "${EWW_BATTERY.BAT0.capacity}%"))

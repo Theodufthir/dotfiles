@@ -1,0 +1,22 @@
+.bar .tabler-icon {
+  font-size: 18px;
+}
+
+.workspaces button {
+  background: $font-color;
+  border-radius: 50%;
+}
+
+.workspaces button.active {
+  background: $accent-color;
+  padding: 2px;
+}
+
+.workspaces button:hover {
+  opacity: 0.5;
+}
+
+.battery.low {
+  color: #E42;
+  font-weight: bold;
+}

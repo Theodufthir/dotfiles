@@ -1,0 +1,18 @@
+scale.bar-metric trough highlight {
+  background-color: $accent-color;
+  border-radius: 3px;
+}
+
+scale.bar-metric trough {
+  background-color: #4e4e4e;
+  border-radius: 3px;
+  min-height: 6px;
+  min-width: 50px;
+  margin-left: 5px;
+}
+
+circular-progress.circular-metric {
+  color: $accent-color;
+  background-color: #4e4e4e;
+  margin-left: 5px;
+}

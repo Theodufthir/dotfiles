@@ -1,0 +1,22 @@
+(include "windows/metric.yuck")
+
+(defwindow graph-test
+  :stacking "overlay"
+  :geometry (geometry :y "10%"
+                      :anchor "bottom center")
+  (box :orientation "h"
+       :class "base"
+    (box :class "label" "volume") 
+    (graph :value {volume}
+           :time-range "10s"
+           :line-style "round"
+           :width 100)))
+
+(defwindow svg-test
+  :stacking "overlay"
+  :geometry (geometry :width "10%"
+                      :height "10%"
+                      :anchor "right bottom")
+  (box :orientation "h"
+       :class "test-svg"
+    (tabler-icon :name "square-0")))
