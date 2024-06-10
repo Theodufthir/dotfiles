@@ -9,13 +9,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    tabler-icons = {
-      url = "github:theodufthir/tabler-icons-nixpkg";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    tabler-icons.url = "github:theodufthir/tabler-icons-nixpkg";
+    watershot.url = "github:Kirottu/watershot";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-latest, home-manager, tabler-icons, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-latest, home-manager, tabler-icons, watershot, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs-unstable.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -26,6 +24,7 @@
             config.allowUnfree = true;
             overlays = [
               tabler-icons.overlays.default
+              (final: prev: { inherit (watershot.packages.${prev.system}.default); })
             ];
           };
           pkgs-latest = import nixpkgs-latest {

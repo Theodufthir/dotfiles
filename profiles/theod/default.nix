@@ -1,23 +1,48 @@
 { config, pkgs-unstable, ... }:
 {
+  xdg.portal = {
+    enable = true;
+    config = {
+      common.default = [ "gtk" ];
+    };
+    extraPortals = [
+      pkgs-unstable.xdg-desktop-portal-hyprland
+    ];
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
     settings = import ./hyprland.nix;
   };
 
+  programs.hyprlock = {
+    enable = true;
+    settings = import ./hyprlock.nix;
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = import ./hypridle.nix;
+  };
+
   home.packages = (with pkgs-unstable; [
     foot
     firefox
     brightnessctl
-    discord
+    webcord-vencord
     playerctl
     jq
     wofi
-    xdg-desktop-portal-hyprland
     eww
     tabler-icons
+    jetbrains.pycharm-professional
+    watershot
+    grim
+    satty
   ]);
+
+  services.flameshot.enable = true;
 
   fonts.fontconfig.enable = true;
 
@@ -32,10 +57,10 @@
     enableCompletion = true;
     
     shellAliases = {
-      edit-config-nixos = "cd /etc/nixos && sudo vim . && cd -";
-      edit-config-eww = "cd ~/.config/eww && vim . && cd -";
+      edit-config-nixos = "(cd /etc/nixos && sudo vim .)";
+      edit-config-eww = "(cd ~/.config/eww && vim .)";
       rebuild-nixos = "sudo nixos-rebuild switch";
-      battery-info = ''upower -i $(upower --dump | sed -rn 's/Device:\s*(.*BAT.*?)\s*$/\1/p')'';
+      update-nixos = "(cd /etc/nixos && sudo nix flake update)";
       list-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --list-generations"; 
       delete-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
       delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';

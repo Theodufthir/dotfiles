@@ -1,13 +1,13 @@
 {
   monitor = [
-    "HDMI-A-1,preferred,-1440x0,auto"
+    "HDMI-A-1,preferred,-1440x0,1.25"
     "eDP-1,2880x1800@60,auto,auto"
     ",preferred,auto,auto"
   ];
 
 
   exec-once = [
-    "eww daemon && eww open bar --screen 0 --id 0"
+    "eww daemon && sleep 1 && eww open bar --screen 0 --id 0"
     "brightnessctl -r"
   ];
 
@@ -106,7 +106,8 @@
     "$mod_SHIFT, E, exit, "
     "$mod, E, exec, dolphin"
     "$mod, V, togglefloating, "
-    "$mod, R, exec, wofi --show drun"
+    "$mod, d, exec, wofi --show drun"
+    "$mod, R, exec, wofi --show run"
     "$mod, P, pseudo, # dwindle"
     "$mod, J, togglesplit, # dwindle"
     "$mod, F, fullscreen, # dwindle"
@@ -115,7 +116,7 @@
       map (
         dir: let letter = (builtins.substring 0 1 dir); in [
           "$mod, ${dir}, movefocus, ${letter}"
-          "$mod_SHIFT, ${dir}, movewindow, ${letter}"
+          "$mod SHIFT, ${dir}, movewindow, ${letter}"
         ]
       )
       [ "left" "right" "up" "down" ]
@@ -123,17 +124,19 @@
   ) ++ (
     builtins.concatLists (
       map (
-        n: let code = "code:${toString(n + 9)}"; number = toString n; in [
+        n: let code = "code:${toString (n + 10)}"; number = toString (n + 1); in [
           "$mod, ${code}, workspace, ${number}"
-          "$mod_SHIFT, ${code}, movetoworkspacesilent, ${number}"
-          "$mod_SHIFT_CTRL, ${code}, movetoworkspace, ${number}"
+          "$mod SHIFT, ${code}, movetoworkspacesilent, ${number}"
+          "$mod CTRL, ${code}, movetoworkspace, ${number}"
         ]
       )
-      (builtins.genList (x: x) 10)
+      (builtins.genList (x: x) 9)
     ) 
   ) ++ [
-    "$mod, S, togglespecialworkspace, magic"
-    "$mod SHIFT, S, movetoworkspace, special:magic"
+    
+    "$mod, ESCAPE, togglespecialworkspace, magic"
+    "$mod SHIFT, ESCAPE, movetoworkspacesilent, special:magic"
+    "$mod CTRL, ESCAPE, movetoworkspace, special:magic"
     
     "$mod, mouse_down, workspace, e+1"
     "$mod, mouse_up, workspace, e-1"
@@ -146,7 +149,7 @@
     ", XF86AudioRaiseVolume, exec, amixer sset Master 2%+ "
     ", XF86AudioLowerVolume, exec, amixer sset Master 2%-"
     ", XF86AudioMicMute, exec, amixer --default-source -m"
-    ", XF86AudioMute, exec, amixer -t"
+    ", XF86AudioMute, exec, amixer sset Master toggle"
     
     # Player controls
     ", XF86AudioPlay, exec, playerctl play"
