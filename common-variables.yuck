@@ -1,8 +1,8 @@
 (defpoll time :interval "10s"
   "date '+%H:%M'")
 
-(defpoll volume :interval "100ms"
-  "scripts/audio/get-volume.sh")
+(defpoll volume-infos :interval "100ms"
+  "scripts/audio/get-volume-infos.sh")
 
 (defpoll luminosity :interval "100ms"
   "scripts/screen/get-luminosity.sh")
@@ -13,8 +13,17 @@
 (defpoll wm-active-workspace :interval "100ms"
   "scripts/wm/get-active-workspace-infos.sh")
 
+(defpoll wm-active-window :interval "100ms"
+  "scripts/wm/get-active-window-infos.sh")
+
+(defpoll auto-rotate-status :interval "100ms"
+  "scripts/wm/get-auto-rotate-status.sh")
+
 (defpoll tabler-icons :interval "10000h"
- 'scripts/utils/get-tabler-icons.sh \'["bluetooth","wifi","volume","sun$","cpu$"]\' regexFilter')
+  'scripts/utils/get-tabler-icons.sh \'["bluetooth","wifi","volume","sun$","cpu$","refresh","battery.*[^d]$","kitty","WebCord","firefox","^circle(-[^-]+)?$","^star","minus-v"]\' regexFilter')
+
+(defpoll hi-reveal :interval "10000h"
+  'scripts/utils/seq-update-jq.sh hi-reveal "{}" init')
 
 
 (deflisten bluetooth-controllers
@@ -22,6 +31,12 @@
 
 (deflisten bluetooth-devices
   "scripts/utils/poll-to-changes-stream.sh 'scripts/bluetooth/get-devices-infos.sh' 0.1")
+
+(deflisten wm-workspaces
+  'scripts/utils/poll-to-changes-stream.sh \'scripts/wm/get-workspaces-infos.sh sort_by(.id)|with_entries(.key=\"\\(.value.id)\")\' 0.1')
+
+(deflisten wm-windows :initial "{}"
+  'scripts/utils/poll-to-changes-stream.sh \'scripts/wm/get-windows-infos.sh with_entries(.key=\"\\(.value.address)\")\' 0.1')
 
 (deflisten wifi-devices :initial ""
   "scripts/wifi/stream-devices-infos.sh")
@@ -31,6 +46,3 @@
 
 (deflisten player-status :initial ""
   "scripts/media/stream-player-status.sh")
-
-
-(defvar hi-reveal '{}')

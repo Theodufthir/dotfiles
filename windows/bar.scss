@@ -2,18 +2,36 @@
   font-size: 18px;
 }
 
-.workspaces button {
-  background: $font-color;
-  border-radius: 50%;
+.workspaces {
+  .tabler-icon {
+    font-size: 12px;
+    margin: 0px -4px;
+  }
+
+  button .tabler-icon {
+    margin: 2px;
+  }
+
+  .active .tabler-icon,.overlayed .tabler-icon {
+    font-size: 16px;
+    margin: 0px;
+  }
+
+  button.active {
+    color: $accent-color-3;
+  }
+
+  button.overlayed {
+    color: $accent-color-2;
+  }
 }
 
-.workspaces button.active {
-  background: $accent-color;
-  padding: 2px;
+button.highlighteable:hover {
+  color: $accent-color;
 }
 
-.workspaces button:hover {
-  opacity: 0.5;
+.battery .tabler-icon {
+  font-size: 22px;
 }
 
 .battery.low {

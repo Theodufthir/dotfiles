@@ -1,6 +1,6 @@
-(defwidget tabler-icon [name ?size]
+(defwidget tabler-icon [name ?alt ?halign ?valign]
   (box :style "font-family: 'tabler-icons'"
-       :halign "center"
-       :valign "center"
+       :halign {halign ?: "center"}
+       :valign {valign ?: "center"}
        :class "tabler-icon"
-    (literal :content "\{tabler-icons.${name}\}")))
+    {tabler-icons?.["${name}"] ?: tabler-icons?.["${alt}"]}))

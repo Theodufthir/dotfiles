@@ -17,51 +17,41 @@
   (box :class "base"
        :orientation "h"
        :space-evenly false
-       :spacing 10
+       :spacing 6
        :halign "end"
-    (hiding-item :id "bar-volume"
-                 :orientation "left"
-      (tabler-icon :name "volume")
-      (scale :class "bar-metric"
-             :value volume
-             :onchange "scripts/audio/set-volume.sh {}"))
-    (hiding-item :id "bar-luminosity"
-                 :orientation "left"
-      (tabler-icon :name "sun")
-      (scale :class "bar-metric"
-             :value luminosity
-             :onchange "scripts/screen/set-luminosity.sh {}"
-             :min 2
-             :max 200)) 
-    (hiding-item :id "bar-resources"
-                 :orientation "left"
-      (tabler-icon :name "cpu")
-      (box :orientation "h"
-        (circular-metric :label "AM"
-                         :value {EWW_RAM.used_mem_perc})
-        (circular-metric :label "CPU"
-                         :value {EWW_CPU.avg})))
+    (sound)
+    (brightness)
+    (resources)
     (bluetooth)
     (wifi)
+    (rotate)
     (battery)
     time))
 
 (defwidget workspaces []
   (box :class "base workspaces"
        :orientation "h"
-       :space-evenly true
+       :space-evenly false
+       :spacing 8
        :halign "start"
-       :spacing 10
-    (for id in "[1, 2, 3, 4, 5, 6, 7, 8, 9]"
-      (workspaceButton :id id))))
+    (specialWorkspaceButton :workspace {wm-workspaces?.["-98"]})
+    (tabler-icon :name "minus-vertical")
+    (workspaceButton :workspace {wm-workspaces?.["1"]})
+    (for id in {jq(wm-workspaces, '[range(2;keys|last|tonumber+1)]')}
+      (workspaceButton :workspace {wm-workspaces?.["${id}"]}))))
 
-(defwidget workspaceButton [id]
-  (button :onclick "scripts/wm/set-active-workspace.sh ${id}"
-          :class { wm-active-workspace.id == id ? "active" : "" }
-          :halign "center"
+(defwidget workspaceButton [workspace]
+  (button :onclick "scripts/wm/set-active-workspace.sh ${workspace?.id}"
+          :class { wm-active-workspace.id == workspace?.id ? "active" : "highlighteable" }
           :valign "center"
-          :width { wm-active-workspace.id == id ? 10 : 8 }
-          :height { wm-active-workspace.id == id ? 10 : 8 }))
+    (tabler-icon :name {workspace == "null" ? "circle-dashed" : (workspace.lastwindow == "0x0" ? "circle" : wm-windows?.["${workspace.lastwindow}"]?.class)}
+                 :alt "circle-filled"))) 
+
+(defwidget specialWorkspaceButton [workspace]
+  (button :onclick "scripts/wm/toggle-special-workspace.sh ${replace(workspace?.name, "/^special:(.+)$/", "$1")}"
+          :class { wm-active-window?.workspace.id == -98 ? "overlayed" : "highlighteable" }
+          :valign "center"
+    (tabler-icon :name {(workspace?.lastwindow ?: "0x0") == "0x0" ? "stars" : "stars-filled"}))) 
 
 (defwidget music []
   (box :class "base"
@@ -73,15 +63,53 @@
            :show-truncated true
            :text "${player-metadatas.title}  by  ${player-metadatas.author}")))
 
+(defwidget sound []
+  (hiding-item :id "bar-volume"
+               :orientation "right"
+    (button :onclick "scripts/audio/toggle-audio.sh"
+            :class "highlighteable"
+      (tabler-icon :name {volume-infos.muted.left ? "volume-off" : "volume"}))
+    (scale :class "bar-metric ${volume-infos.muted.left ? "" : "active"}"
+           :active {!volume-infos.muted.left}
+           :value {volume-infos.volume.left}
+           :onchange "scripts/audio/set-volume.sh {}")))
+ 
+(defwidget brightness []
+  (hiding-item :id "bar-luminosity"
+               :orientation "right"
+    (tabler-icon :name "sun")
+    (scale :class "bar-metric active"
+           :value luminosity
+           :onchange "scripts/screen/set-luminosity.sh {}"
+           :min 2
+           :max 200)))
+    
+(defwidget resources []
+  (hiding-item :id "bar-resources"
+               :orientation "right"
+    (tabler-icon :name "cpu")
+    (box :orientation "h"
+      (circular-metric :label "ram "
+                       :value {EWW_RAM.used_mem_perc})
+      (circular-metric :label "cpu "
+                       :value {EWW_CPU.avg}))))
+
 (defwidget bluetooth []
   (button :onclick "eww open bluetooth-menu --toggle --screen ${jq(wm-monitors, '.[] | select(.focused == true).id')}"
+          :class "highlighteable"
     (tabler-icon :name {jq(bluetooth-controllers, '.[0].Powered') ? "bluetooth" : "bluetooth-off"})))
 
 (defwidget wifi []
   (button :onclick "#does nothing"
+          :class "highlighteable"
     (tabler-icon :name {jq(wifi-devices, 'any (.general.type == "wifi" and .general.state == "100 (connected)")') ? "wifi" : "wifi-off"})))
 
+(defwidget rotate []
+  (button :onclick "#does nothing"
+          :class "highlighteable"
+    (tabler-icon :name {auto-rotate-status == "active" ? "refresh" : "refresh-off"})))
+
 (defwidget battery []
-  (box :orientation "h"
-       :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? "low" : ""}"
-    "${EWW_BATTERY.BAT0.capacity}%"))
+  (tooltip :class "battery ${EWW_BATTERY.BAT0.capacity < 25 ? "low" : ""}"
+    (box :class "base" "${EWW_BATTERY.BAT0.capacity}%")
+    (tabler-icon :name "battery-${round((EWW_BATTERY.BAT0.capacity / 25), 0)}")))

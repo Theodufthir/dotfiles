@@ -6,7 +6,7 @@
                       :anchor "bottom center")
   (floating-indicator
     :title "Volume"
-    :value volume
+    :value {volume-infos.volume.left}
     :onchange "scripts/audio/setVolume.sh {}"))
 
 (defwindow luminosity-indicator
@@ -22,6 +22,6 @@
   (box :orientation "v"
        :class "base"
     (box :class "label" title)
-    (metric :label ""
-            :value value
-            :onchange onchange)))
+    (bar-metric :label ""
+                :value value
+                :onchange onchange)))

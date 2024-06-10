@@ -7,7 +7,7 @@
   (box :orientation "h"
        :class "base"
     (box :class "label" "volume") 
-    (graph :value {volume}
+    (graph :value {volume-infos.volume.left}
            :time-range "10s"
            :line-style "round"
            :width 100)))

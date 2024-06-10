@@ -1,13 +1,16 @@
 (defwidget hiding-item [id orientation]
-  (eventbox :onhover "eww update hi-reveal='${jq(hi-reveal, '."${id}" = true')}'"
-            :onhoverlost "eww update hi-reveal='${jq(hi-reveal, '."${id}" = false')}'"
+  (eventbox :onhover "scripts/utils/seq-update-jq.sh hi-reveal '.\"${id}\" = true'"
+            :onhoverlost "scripts/utils/seq-update-jq.sh hi-reveal '.\"${id}\" = false'"
     (box :orientation { matches(orientation, 'up|down') ? "v" : "h" }
          :class "hiding-item"
          :space-evenly false
-      (children :nth 0)
+      (children :nth {matches(orientation, 'down|left') ? 0 : -1})
       (revealer :transition "slide${orientation}"
-                :reveal {jq(hi-reveal, '."${id}"')}
-        (children :nth 1)))))
+                :reveal {jq(hi-reveal, '."${id}"') ?: false}
+        (box :orientation { matches(orientation, 'up|down') ? "v" : "h" }
+             :style "margin-${orientation}: 5px"
+          (children :nth 1)))
+      (children :nth { matches(orientation, 'down|left') ? -1 : 0 }))))
 
 (defwidget bar-metric [label value ?min ?max]
   (box :orientation "h"
