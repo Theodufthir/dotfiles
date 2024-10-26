@@ -1,0 +1,46 @@
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+//Global Styles
+.base {
+  background-color: $background;
+  color: $font-color;
+  border-radius: $border-radius;
+  padding: 1px 6px;
+  border: $border;
+}
+
+tooltip {
+  background-color: $background;
+  color: $font-color;
+  border-radius: $border-radius;
+  border: $border;
+  * {
+    margin: -2px 0px;
+  }
+}
+
+menu {
+  background-color: $background;
+  color: $font-color;
+  border-radius: $border-radius;
+  border: $border;
+  padding: 2px 6px;
+}
+
+.highlightable:hover {
+  color: $accent-color;
+}
+
+scale trough {
+  highlight {
+    background-color: $font-color;
+  }
+  background-color: $backdrop-color;
+}
+
+scale.highlightable trough highlight:hover {
+  background-color: $accent-color;
+}
+

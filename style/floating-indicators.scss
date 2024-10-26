@@ -1,0 +1,20 @@
+.floating-indicator {
+  .tabler-icon {
+    font-size: 16px
+  }
+
+  scale.bar-metric trough {
+    highlight {
+      border-radius: 3.5px;
+    }
+  
+    border-radius: 3.5px;
+    min-height: 7px;
+    min-width: 80px;
+  }
+}
+
+.floating-indicator.brightness scale {
+  margin: 0px 2px 0px 0px;
+}
+
