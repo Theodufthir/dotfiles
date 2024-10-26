@@ -8,6 +8,7 @@
       ./driver-packages.nix
     ];
 
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -46,7 +47,8 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.xkb.layout = "fr";
-  services.xserver.libinput.enable = true; # touchpad support
+  
+  services.libinput.enable = true; # touchpad support
 
   # Wayland config
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -62,23 +64,22 @@
     enableDefaultPackages = true;
     packages = with pkgs-unstable; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
     ];
   
     fontconfig = {
       defaultFonts = {
-        serif = [ "noto-fonts-cjk" ];
-        sansSerif = [ "noto-fonts-cjk" ];
-        monospace = [ "noto-fonts-cjk" ];
+        sansSerif = [ "noto-fonts" "noto-fonts-cjk-sans" ];
       };
     };
   };
 
-  # Enable sound with pipewire.
-  sound.enable = true;
-  
   hardware.pulseaudio.enable = false;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -101,7 +102,16 @@
     git
     wget
     tree
+    htop
   ]);
+
+  services.upower = {
+    enable = true;
+    percentageLow = 30;
+    percentageCritical = 15;
+    percentageAction = 10;
+    criticalPowerAction = "HybridSleep";
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

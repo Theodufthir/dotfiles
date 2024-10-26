@@ -2,7 +2,7 @@
   general = {
     before_sleep_cmd = "loginctl lock-session";
     after_sleep_cmd = "hyprctl dispatch dpms on"; # avoid pressing key twice (wakeup + turn on screen)
-    lock_cmd = "playerctl -a pause; pidof hyprlock || hyprlock -q";
+    lock_cmd = "pidof hyprlock || hyprlock -q";
     ignore_dbus_inhibit = false;
   };
 
@@ -18,7 +18,7 @@
     }
     {
       timeout = 420;
-      on-timeout = "systemctl suspend"; # Add swap space to switch to hybrid-sleep
+      on-timeout = ''[ "$(playerctl status)" = "Playing" ] || systemctl suspend'';
     }
     # Maybe see if sleep-then-hibernate or fully hibernate is worth
   ];

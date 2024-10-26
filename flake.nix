@@ -2,18 +2,21 @@
   description = "Basic NixOS flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-latest.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:Theodufthir/nixpkgs/fix-hyprland";
+    #nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     tabler-icons.url = "github:theodufthir/tabler-icons-nixpkg";
-    watershot.url = "github:Kirottu/watershot";
+    ags = { 
+      url = "github:theodufthir/ags";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-latest, home-manager, tabler-icons, watershot, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, tabler-icons, ags, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs-unstable.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -24,13 +27,9 @@
             config.allowUnfree = true;
             overlays = [
               tabler-icons.overlays.default
-              (final: prev: { inherit (watershot.packages.${prev.system}.default); })
             ];
           };
-          pkgs-latest = import nixpkgs-latest {
-            inherit system;
-            config.allowUnfree = true;
-          };
+          ags = ags.homeManagerModules.default;
         };
         
         modules = [

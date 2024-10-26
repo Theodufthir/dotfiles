@@ -31,6 +31,8 @@ while read line; do
   [ -z "$monitorValues" ] && echo "Didn't find monitor values after line: '$line'" && continue
 
   hyprctl keyword monitor "$monitor,$monitorValues,auto,auto,transform,$transform" > /dev/null
+  hyprctl keyword input:touchdevice:transform "$transform"
+  sleep 0.1 
   eww reload
   echo "Rotation from '$lastOrientation' to '$orientation' at '$monitorValues' on '$monitor'"
 done < <(monitor-sensor --accel);
