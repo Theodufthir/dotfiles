@@ -1,0 +1,83 @@
+.bar-window {
+  .tabler-icon {
+    font-size: 18px;
+  }
+  
+  .sideinfos {
+    .battery {
+      .in-between {
+        color: $background;
+      }
+  
+      .bars {
+        color: $accent-color-2;
+      }
+    }
+  
+    scale.slider trough {
+      highlight {
+        border-radius: 3px;
+      }
+  
+      border-radius: 3px;
+      min-height: 6px;
+      min-width: 50px;
+      margin: 2px;
+    }
+  }
+  
+  .workspaces {
+    margin: -1px -2px;
+    
+    .tabler-icon {
+      font-size: 16px;
+      margin: 2px 2px;
+    }
+
+    .separator {
+      margin: 0px -5px;
+    }
+  
+    .other-m {
+      color: rgba($accent-color-3, 0.9);
+    }
+  
+    .visible-w.active-m {
+      background: rgba($font-color, 0.5);
+      border-radius: 1px;
+    }
+  
+    .active-w {
+      color: $accent-color-2;
+    }
+  
+    .active-w.active-m {
+      background: rgba($accent-color-2, 0.5);
+    }
+
+    .active-m:first-child {
+      border-radius: 1.5px 0px 0px 1.5px;
+    }
+ 
+    .active-m:last-child {
+      border-radius: 0px 1.5px 1.5px 0px;
+    }
+  
+    .highlightable:hover {
+      color: $accent-color;
+    }
+  }
+  
+  .media {
+    margin: -2px 0px; // Fix for taller characters
+  
+    .no-media {
+      font-style: italic;
+    }
+  
+    .tabler-icon {
+      margin: 0px -4px;
+    }
+  }
+}
+ 

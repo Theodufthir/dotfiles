@@ -1,0 +1,15 @@
+.network-popup {
+  .wifi-list .indicator :not(.tabler-icon) {
+    opacity: 0.8;
+    font-style: italic;
+    font-size: 11px;
+  }
+
+  .wifi-list .tabler-icon {
+    font-size: 20px;
+  }
+
+  .wifi-list .ssid {
+    min-width: 150px;
+  }
+}

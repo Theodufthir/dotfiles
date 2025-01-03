@@ -1,0 +1,11 @@
+.audio-popup {
+  .output-list .indicator :not(.tabler-icon) {
+    opacity: 0.8;
+    font-style: italic;
+    font-size: 11px;
+  }
+
+  .output-list .tabler-icon {
+    font-size: 20px;
+  }
+}
