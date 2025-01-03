@@ -1,0 +1,6 @@
+@girs
+env.d.ts
+tsconfig.json
+package.json
+node_modules
+.idea
