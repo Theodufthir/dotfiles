@@ -153,22 +153,16 @@ function Battery() {
     powerProfiles.activeProfile = profiles[nextIndex].Profile
   }
 
-  const overlayIcon = Utils.merge([battery.bind("charging"), powerProfiles.bind("active-profile")], (charging, profile) => {
-    let icon = "battery-vertical"
-    if (charging) {
-      icon += "-charging-2"
-    } else if (profile === "power-saver") {
-      icon += "-eco"
-    } else if (profile === "performance") {
-      icon += "-exclamation"
-    }
-    return icon
-  })
+  const hovered = Variable(false)
 
-  const tooltipText = Utils.merge(["percent", "time-remaining"].map(v => battery.bind(v)), (percent, seconds) => {
-    const time = seconds > 3600 ? `${(seconds/3600).toFixed(1)}h` : `${(seconds/60).toFixed(0)}m`
-    return `${percent}% : ${time}`
-  })
+  const modeIcon = powerProfiles.bind("active-profile").as(profile => 
+    "battery-vertical" + { "power-saver": "-eco", "performance": "-exclamation", "balanced": "" }[profile])
+
+  const overlayIcon = Utils.merge([battery.bind("charging"), hovered.bind(), modeIcon], (charging, hovered, modeIcon) =>
+    (!hovered && charging) ? "battery-vertical-charging-2" : modeIcon)
+
+  const tooltipText = Utils.merge(["percent", "time-remaining"].map(n => battery.bind(n)), (percent, seconds) => 
+    `${percent}% : ` + (seconds > 3600 ? `${(seconds/3600).toFixed(1)}h` : `${(seconds/60).toFixed(0)}m`))
 
   const batteryIcon = Widget.Overlay({
     child: TablerIcon({
@@ -187,6 +181,8 @@ function Battery() {
     visible: battery.bind("available"),
     on_secondary_click: switchProfiles,
     child: batteryIcon,
+    on_hover: () => hovered.value = true,
+    on_hover_lost: () => hovered.value = false,
     tooltip_text: tooltipText
   })
 }

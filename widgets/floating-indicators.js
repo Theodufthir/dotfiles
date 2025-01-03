@@ -1,5 +1,6 @@
 import { TablerIcon } from "./tabler-icons.js"
 import { getAudioDeviceIcon } from "./utils.js"
+import { hyprToGdkMonitorId } from "./utils.js"
 
 import brightness from "../services/brightness.js"
 const audio = await Service.import("audio")
@@ -48,7 +49,7 @@ const volumeFloatingIndicatorNaming = (monitor) => 'volume-floating-indicator-' 
 function VolumeFloatingIndicatorWindow(monitor = 0) {
   return Widget.Window({
     name: volumeFloatingIndicatorNaming(monitor),
-    monitor,
+    monitor: hyprToGdkMonitorId(monitor),
     layer: "overlay",
     child: Volume(),
     margins: ["100"],
@@ -80,7 +81,7 @@ const brightnessFloatingIndicatorNaming = (monitor) => 'brightness-floating-indi
 function BrightnessFloatingIndicatorWindow(monitor = 0) {
   return Widget.Window({
     name: brightnessFloatingIndicatorNaming(monitor),
-    monitor,
+    monitor: hyprToGdkMonitorId(monitor),
     layer: "overlay",
     child: Brightness(),
     margins: ["100"],

@@ -4,6 +4,7 @@ import { Workspaces } from "./bar/workspaces.js"
 import { TablerIcon } from "./tabler-icons.js"
 import { HoverRevealer } from "./custom.js"
 import { Notifications } from "./bar/notifications.js"
+import { hyprToGdkMonitorId } from "./utils.js"
 import { Volume, Battery, Bluetooth, Brightness, Network, Time } from "./bar/sideinfos.js"
 
 const hyprland = await Service.import("hyprland")
@@ -77,7 +78,7 @@ function BarWindow(monitor = 0) {
   })
   return Widget.Window({
     name: barNaming(monitor),
-    monitor,
+    monitor: hyprToGdkMonitorId(monitor),
     class_name: "bar-window",
     anchor: ["top", "left", "right"],
     exclusivity: "exclusive",

@@ -1,5 +1,5 @@
 import { TablerIcon } from "./tabler-icons.js"
-import { Popup, CustomButton } from "./popup.js"
+import { Popup, CustomSlider, CustomButton } from "./popup.js"
 
 const mpris = await Service.import("mpris")
 const hyprland = await Service.import("hyprland")
@@ -16,7 +16,7 @@ function Infos(player) {
 }
 
 function Controls(player) {
-  const control = (icon, callback, sensitive) => Widget.Button({
+  const control = (icon, callback, sensitive) => CustomButton({
     child: TablerIcon({ icon }),
     on_clicked: callback,
     class_name: sensitive.as(s => s ? "highlightable" : "disabled"),
@@ -76,7 +76,7 @@ function Position(player) {
     class_name: "numeric"
   })
 
-  const slider = Widget.Slider({
+  const slider = CustomSlider({
     value: position.bind().as(p => p / player.length),
     on_change: ({ value }) => player.position = value * player.length,
     draw_value: false,

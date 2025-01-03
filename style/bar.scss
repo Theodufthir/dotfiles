@@ -49,6 +49,14 @@
     .active-w.active-m {
       background: rgba($accent-color-2, 0.5);
     }
+
+    .active-m:first-child {
+      border-radius: 1.5px 0px 0px 1.5px;
+    }
+ 
+    .active-m:last-child {
+      border-radius: 0px 1.5px 1.5px 0px;
+    }
   
     .highlightable:hover {
       color: $accent-color;

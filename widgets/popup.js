@@ -1,8 +1,21 @@
+import { hyprToGdkMonitorId } from "./utils.js"
+
 const hyprland = await Service.import("hyprland")
 
 function checkHovered(widget) {
   if (widget.isHovered()) return true
   return widget.children?.some(checkHovered)
+}
+
+function CustomSlider({ ...params }) {
+  let popup = null
+  return Widget.Slider({ ...params })
+  .on('enter-notify-event', (self) => {
+    popup ??= self
+    while (popup.parent !== null)
+      popup = popup.parent
+    popup.attribute = { ...popup.attribute, hovered: true }
+  })
 }
 
 function CustomButton({ ...params }) {
@@ -21,7 +34,7 @@ function Popup({ monitor, name, ...params }) {
   const setHovered = (self, value) => self.attribute = { ...self.attribute, hovered: value } 
 
   return Widget.Window({
-    monitor,
+    monitor: hyprToGdkMonitorId(monitor),
     name,
     visible: false,
     ...params,
@@ -38,5 +51,6 @@ function Popup({ monitor, name, ...params }) {
 
 export {
   Popup,
+  CustomSlider,
   CustomButton
 }

@@ -1,4 +1,5 @@
 const audio = await Service.import("audio")
+const hyprland = await Service.import("hyprland")
 
 function getAudioDeviceName(device) {
   if (device === null || device === undefined)
@@ -20,7 +21,12 @@ function getAudioDeviceIcon(device) {
   return iconMappings[device['icon-name']] ?? "speakerphone"
 }
 
+function hyprToGdkMonitorId(monitorId) {
+  return hyprland.monitors.findIndex(({id}) => id === monitorId)
+}
+
 export {
   getAudioDeviceName,
-  getAudioDeviceIcon
+  getAudioDeviceIcon,
+  hyprToGdkMonitorId
 }
