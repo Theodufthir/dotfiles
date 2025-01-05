@@ -20,9 +20,9 @@ const Wifi = (wifi: Network.AccessPoint) => {
       <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
       {nBind(wifi, "frequency").as(f => `${(f / 1000).toFixed(1)}GHz`)}
     </box>
-    <Button className="highlightable" halign={Gtk.Align.FILL}
+    <Button className="highlightable wifi-item"
             onPrimaryClick={() => execAsync(`nmcli d wifi connect ${wifi.ssid}`)}>
-      <label truncate className="ssid" halign={Gtk.Align.END} label={wifi.ssid}/>
+      <label truncate hexpand halign={Gtk.Align.END} label={wifi.ssid ?? wifi.bssid}/>
     </Button>
   </box>
 }
