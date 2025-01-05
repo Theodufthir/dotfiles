@@ -29,13 +29,22 @@
       default = ags.lib.bundle {
         inherit pkgs;
         src = ./.;
-        name = "my-shell";
+        name = "bar";
         entry = "app.ts";
 
         # additional libraries and executables to add to gjs' runtime
-        extraPackages = [
-          # ags.packages.${system}.battery
-          # pkgs.fzf
+        extraPackages = with ags.packages.${system}; [
+          hyprland
+          mpris
+          battery
+          bluetooth
+          notifd
+          network
+          tray
+          wireplumber
+          tray
+          powerprofiles
+          apps
         ];
       };
     };
@@ -46,24 +55,10 @@
 
         buildInputs = [
           # includes all Astal libraries
-          # ags.packages.${system}.agsFull # cava visualizer fucks up nix build rn
+          ags.packages.${system}.agsFull
 
           # includes astal3 astal4 astal-io by default
-          (ags.packages.${system}.default.override {
-            extraPackages = with ags.packages.${system}; [
-              hyprland
-              mpris
-              battery
-              bluetooth
-              notifd
-              network
-              tray
-              wireplumber
-              tray
-              powerprofiles
-              apps
-            ];
-          })
+          (ags.packages.${system}.default.override { extraPackages = with ags.packages.${system}; []; })
         ];
       };
     };
