@@ -19,7 +19,8 @@
   };
 
   home.packages = (with pkgs-unstable; [
-#    iio-hyprland #tofix
+    btop
+    iio-hyprland #tofix
     foot
     brightnessctl
     webcord-vencord
@@ -36,6 +37,7 @@
     vscode
     alsa-utils
     sassc
+    ardour
   ]);
 
   fonts.fontconfig.enable = true;
@@ -86,6 +88,17 @@ set smartindent
       delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
       clean-tmp-edit = ''find . -name '*~' -exec rm -rfi {} \;'';
     };
+  };
+
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    settings = import ./starship.nix;
+  };
+
+  programs.foot = {
+    enable = true;
+    settings.main.font = "monospace:size=11";
   };
 
   programs.ags = {

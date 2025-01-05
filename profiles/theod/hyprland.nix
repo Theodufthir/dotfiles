@@ -15,6 +15,8 @@
       "desc:AOC Q24G2 ZQVQ3HA005748,preferred,auto-left,1.25"
       "desc:Samsung Electric Company U32J59x HNMW800784,preferred,auto-left,1.5"
       "desc:Samsung Electric Company U32J59x HNMW800791,preferred,auto-right,1.5"
+      "desc:Invalid Vendor Codename - RTK RTK QHD HDR demoset-1,preferred,auto-left,1.6"
+      "desc:LG Electronics LG TV SSCR2 0x01010101,preferred,auto-up,3"
       ",preferred,auto,auto"
     ];
 
@@ -31,9 +33,9 @@
     ];
 
     exec-once = [
-      "ags"
+      "ags &> /tmp/ags_logs"
       "brightnessctl -r"
-      #"iio-hyprland" #tofix
+      "iio-hyprland" #tofix
     ];
 
     # Some default env vars.
@@ -77,10 +79,9 @@
           passes = 2;
       };
 
-      drop_shadow = "no";
-      shadow_range = 4;
-      shadow_render_power = 3;
-      "col.shadow" = "rgba(1a1a1aee)";
+      shadow = {
+        enabled = false;
+      };
 
       screen_shader = "/home/theod/.config/hypr/screen_shader.frag";
     };
@@ -134,8 +135,8 @@
 
     bind = [
       # Clients
-      "$mod, Return, exec, kitty"
-      "$mod SHIFT, Return, exec, [float] kitty"
+      "$mod, Return, exec, foot"
+      "$mod SHIFT, Return, exec, [float] foot"
       "$mod, Q, killactive,"
       
       '', $mod_L, exec, echo "$(($(date +%s%3N) + $super_press_delay))" > /tmp/hyprland_super_timestamp''
@@ -154,8 +155,10 @@
       "$mod SHIFT, F, fullscreenstate, -1 3"
       "$mod CTRL, F, fullscreen, 1"
       "$mod SHIFT, SPACE, centerwindow,"
-
       "$mod SHIFT, V, focuswindow, floating" 
+      "$mod, TAB, changegroupactive, forward"
+      "$mod SHIFT, TAB, changegroupactive, back"
+      "$mod, G, togglegroup"
 
       # Workspaces
       "$mod, ESCAPE, togglespecialworkspace, magic"
@@ -180,8 +183,8 @@
         map (
           dir: let letter = (builtins.substring 0 1 dir); in [
             "$mod, ${dir}, movefocus, ${letter}"
-            "$mod SHIFT, ${dir}, movewindow, ${letter}"
-            "$mod ALT SHIFT, ${dir}, swapwindow, ${letter}"
+            "$mod SHIFT, ${dir}, movewindoworgroup, ${letter}"
+            "$mod CTRL, ${dir}, swapwindow, ${letter}"
           ]
         )
         [ "left" "right" "up" "down" ]
@@ -196,10 +199,10 @@
 
     # Repeated binds
     binde = [
-      "$mod CTRL, right, resizeactive, 10 0"
-      "$mod CTRL, left, resizeactive, -10 0"
-      "$mod CTRL, up, resizeactive, 0 -10"
-      "$mod CTRL, down, resizeactive, 0 10"
+      "$mod ALT, right, resizeactive, 10 0"
+      "$mod ALT, left, resizeactive, -10 0"
+      "$mod ALT, up, resizeactive, 0 -10"
+      "$mod ALT, down, resizeactive, 0 10"
     ];
 
     # Repeated+locked binds

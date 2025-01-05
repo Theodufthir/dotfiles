@@ -10,13 +10,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     tabler-icons.url = "github:theodufthir/tabler-icons-nixpkg";
-    ags = { 
-      url = "github:theodufthir/ags";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    ags.url = "github:aylur/ags/v1";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, tabler-icons, ags, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ags, tabler-icons, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs-unstable.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -29,7 +26,7 @@
               tabler-icons.overlays.default
             ];
           };
-          ags = ags.homeManagerModules.default;
+	  ags = ags.homeManagerModules.default;
         };
         
         modules = [

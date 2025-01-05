@@ -63,14 +63,14 @@
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs-unstable; [
-      noto-fonts
+      #nerd-fonts._0xproto
       noto-fonts-cjk-sans
       noto-fonts-emoji
     ];
-  
+    
     fontconfig = {
       defaultFonts = {
-        sansSerif = [ "noto-fonts" "noto-fonts-cjk-sans" ];
+        #sansSerif = [ "nerd-fonts" "noto-fonts" "noto-fonts-cjk-sans" ];
       };
     };
   };
@@ -88,7 +88,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
+    jack.enable = true;
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -97,7 +97,6 @@
   virtualisation.docker.enable = true;
 
   environment.systemPackages = (with pkgs-unstable; [
-    kitty
     vim
     git
     wget
