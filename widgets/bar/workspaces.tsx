@@ -28,13 +28,12 @@ nBind(hyprland, "focusedClient").subscribe(() => hyprland.sync_workspaces(null))
 const dispatch = (cmd: string) => hyprland.message_async("dispatch " + cmd, null)
 
 function getWorkspaceClasses(workspace: Hyprland.Workspace, currentMonitorId: number): Binding<string> {
-  let classes = workspace.monitor.id === currentMonitorId ? "active-m" : "other-m"
-
   return nBind(hyprland, "focusedWorkspace").as(focusedWorkspace => {
+    let classes = workspace.monitor?.id === currentMonitorId ? "active-m" : "other-m"
     switch (workspace.id) {
-      case focusedWorkspace.id:
+      case focusedWorkspace?.id:
         return classes + " active-w"
-      case workspace.monitor.activeWorkspace.id:
+      case workspace.monitor?.activeWorkspace?.id:
         return classes + " highlightable visible-w"
       default:
         return classes + " highlightable other-w"

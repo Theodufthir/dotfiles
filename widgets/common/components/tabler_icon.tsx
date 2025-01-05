@@ -13,7 +13,7 @@ const symbols = JSON.parse(readFile('./assets/tabler-icons.json'))
 const TablerIcon = ({ icon, alt = "???", size, ...props }: TablerIconProps) => {
   return <label
     {...props}
-    css={"font-family: 'tabler-icons'; " + (size ? `font-size: ${size}; ` : "") + (props.css ?? "")}
+    css={"font-family: 'tabler-icons'; " + (size ? `font-size: ${size}px; ` : "") + (props.css ?? "")}
     className={"tabler-icon " + (props.className ?? "")}
     label={(typeof(icon) === "string") ? symbols[icon] ?? alt : icon.as(value => symbols[value] ?? alt)}/>
 }
