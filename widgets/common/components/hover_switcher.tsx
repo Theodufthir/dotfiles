@@ -44,7 +44,7 @@ const HoverSwitcher = (
   return <eventbox
     onHover={() => hovered.set(true)}
     onHoverLost={() => hovered.set(false)}
-    onDestroy={hovered.drop}>
+    onDestroy={() => hovered.drop()}>
     <box
       {...props}
       vertical={props.vertical ?? /SLIDE_(UP|DOWN)/.test(transitionType.toString())}>

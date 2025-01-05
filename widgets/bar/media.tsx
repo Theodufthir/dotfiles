@@ -18,7 +18,7 @@ function Media() {
     sensitive={hasMedia}
     onPrimaryClick={() => toggleOnCurrentMonitor(MediaPopup)}
     onSecondaryClick={() => mainPlayer.get().play_pause()}
-    onDestroy={text.drop}>
+    onDestroy={() => text.drop()}>
     {nBind(text)}
   </Button>
 }

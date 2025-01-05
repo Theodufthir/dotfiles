@@ -22,12 +22,12 @@ const HoverRevealer = (
 
   if (lockReveal === null || typeof lockReveal === "boolean") {
     const lockRevealVar = Variable(lockReveal)
-    hovered.onDropped(lockRevealVar.drop)
+    hovered.onDropped(() => lockRevealVar.drop())
     lockReveal = bind(lockRevealVar)
   }
 
   const reveal = Variable.derive([bind(hovered), lockReveal], (hov, lock) => lock ?? hov)
-  reveal.onDropped(hovered.drop)
+  reveal.onDropped(() => hovered.drop())
 
   const revealer = <revealer
     revealChild={bind(reveal)}
@@ -39,7 +39,7 @@ const HoverRevealer = (
   return <eventbox
     onHover={() => hovered.set(true)}
     onHoverLost={() => hovered.set(false)}
-    onDestroy={reveal.drop}>
+    onDestroy={() => reveal.drop()}>
     <box
       {...props}
       vertical={props.vertical ?? (transitionType === Transition.SLIDE_UP || transitionType === Transition.SLIDE_DOWN)}>

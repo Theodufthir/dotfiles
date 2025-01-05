@@ -21,15 +21,15 @@ const VolumeIndicator = (props: EphemeralWindowProps) => {
     anchor={Astal.WindowAnchor.BOTTOM}
     layer={Astal.Layer.OVERLAY}
     margin_bottom={100}
-    onDestroy={popupTrigger.drop}
+    onDestroy={() => popupTrigger.drop()}
     {...props}>
     <box className="base floating-indicator volume" spacing={3}>
-      <TablerIcon icon={nBind(volumeIcon)} onDestroy={volumeIcon.drop}/>
+      <TablerIcon icon={nBind(volumeIcon)} onDestroy={() => volumeIcon.drop()}/>
       <slider className="bar-metric"
               drawValue={false}
               value={nBind(audio, "defaultSpeaker", "volume")}/>
       <TablerIcon icon="minus-vertical" css="margin-right: -4px"/>
-      <TablerIcon icon={nBind(deviceIcon)} onDestroy={deviceIcon.drop}/>
+      <TablerIcon icon={nBind(deviceIcon)} onDestroy={() => deviceIcon.drop()}/>
     </box>
   </EphemeralWindow>
 }

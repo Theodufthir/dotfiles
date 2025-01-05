@@ -9,8 +9,16 @@ export interface EphemeralWindowProps extends BaseWindowProps {
   destroyOnTimeout?: boolean
 }
 
-const EphemeralWindow = ({ timeout = 1000, trigger, destroyOnTimeout = false, ...props }: EphemeralWindowProps) => {
-  const window = <BaseWindow visible={trigger === undefined} {...props}/>
+const EphemeralWindow = ({ timeout = 1000, trigger, onDestroy = undefined, destroyOnTimeout = false, ...props }: EphemeralWindowProps) => {
+  let releaseCallback: () => void
+  const window = <BaseWindow
+    visible={trigger === undefined}
+    onDestroy={self => {
+      if (onDestroy !== undefined) onDestroy(self)
+      releaseCallback()
+    }}
+    {...props}
+  />
 
   if (trigger === undefined) {
     createTimeout(timeout, destroyOnTimeout ? window.destroy : window.hide)
@@ -32,10 +40,14 @@ const EphemeralWindow = ({ timeout = 1000, trigger, destroyOnTimeout = false, ..
     })
   }
 
-  const subscribable = trigger as Subscribable
-  const { connectable, event } = trigger as { connectable: Connectable, event: string }
-  subscribable?.subscribe(runTimeout)
-  connectable?.connect(event, runTimeout)
+  if (typeof trigger["event"] === "string") {
+    const { connectable, event } = trigger as { connectable: Connectable, event: string }
+    const id = connectable.connect(event, runTimeout)
+    releaseCallback = () => connectable.disconnect(id)
+  } else {
+    const subscribable = trigger as Subscribable
+    releaseCallback = subscribable.subscribe(runTimeout)
+  }
 
   return window
 }

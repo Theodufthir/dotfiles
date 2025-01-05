@@ -39,7 +39,7 @@ const Bluetooth = () => {
     onPrimaryClick={() => toggleOnCurrentMonitor(BluetoothPopup)}
     onSecondaryClick={bluetooth.toggle}
     tooltipText={tooltipText}>
-    <TablerIcon icon={nBind(icon)} onDestroy={icon.drop}/>
+    <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
   </Button>
 }
 
@@ -72,8 +72,8 @@ const Network = () => {
     onPrimaryClick={() => toggleOnCurrentMonitor(NetworkPopup)}
     onSecondaryClick={() => network.get_wifi()?.set_enabled(!network.get_wifi()?.enabled)}
     tooltipText={nBind(tooltipText)}
-    onDestroy={tooltipText.drop}>
-    <TablerIcon icon={nBind(icon)} onDestroy={icon.drop}/>
+    onDestroy={() => tooltipText.drop()}>
+    <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
   </Button>
 }
 
@@ -109,7 +109,7 @@ function Volume() {
       onPrimaryClick={() => toggleOnCurrentMonitor(AudioPopup)}
       onSecondaryClick={() => audio?.get_default_speaker()?.set_mute(!audio?.get_default_speaker()?.mute)}
       tooltipText={tooltipText}>
-      <TablerIcon icon={nBind(icon)} onDestroy={icon.drop}/>
+      <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
     </Button>
     <slider
       drawValue={false}
@@ -149,13 +149,13 @@ function Battery() {
     onHover={() => hovered.set(true)}
     onHoverLost={() => hovered.set(false)}
     tooltip_text={nBind(tooltipText)}
-    onDestroy={tooltipText.drop}>
+    onDestroy={() => tooltipText.drop()}>
     <overlay passThrough>
       <TablerIcon
         icon={nBind(battery, "percentage").as(p => `battery-vertical${p > 0.15 ? "-" + Math.round(p / 0.25) : ""}`)}
         className="bars"/>
       <TablerIcon icon="battery-vertical" className="in-between"/>
-      <TablerIcon icon={nBind(overlayIcon)} onDestroy={overlayIcon.drop}/>
+      <TablerIcon icon={nBind(overlayIcon)} onDestroy={() => overlayIcon.drop()}/>
     </overlay>
   </Button>
 }

@@ -17,7 +17,7 @@ const Wifi = (wifi: Network.AccessPoint) => {
 
   return <box spacing={10}>
     <box>
-      <TablerIcon icon={nBind(icon)} onDestroy={() => { try { icon.drop() } catch(e) {} }}/>
+      <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
       {nBind(wifi, "frequency").as(f => `${(f / 1000).toFixed(1)}GHz`)}
     </box>
     <Button className="highlightable" halign={Gtk.Align.FILL}
