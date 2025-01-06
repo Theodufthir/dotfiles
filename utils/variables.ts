@@ -30,10 +30,10 @@ function nDerive(obj: Connectable | Subscribable<Connectable>, props: string[], 
 
     const attachNewDerivation = (newConnectable: Connectable) => {
       derivation?.drop()
-      derivation = nDerive(newConnectable, props, transform)
-      const unsubscribe = derivation.subscribe(val => variable.set(val))
-      derivation.onDropped(unsubscribe)
-      variable.set(derivation.get())
+      derivation = newConnectable !== undefined ? nDerive(newConnectable, props, transform) : undefined
+      const unsubscribe = derivation?.subscribe(val => variable.set(val))
+      derivation?.onDropped(unsubscribe!)
+      variable.set(derivation?.get())
     }
 
     attachNewDerivation(obj.get())
@@ -153,25 +153,25 @@ function _nBind<
   Value extends Object[Prop]
 >(subscribable: Subscribable<Object>, property: Prop): Binding<Value> {
   const getSubscribeFct = (binding: Binding<Value>) => (callback: (_: Value) => void) => {
-    let connectable: Object = subscribable.get()
+    let connectable: Object | undefined = subscribable.get()
     const signal = `notify::${property as string}`
-    let id: number = connectable.connect(signal, () => { callback(binding.get()) })
+    let id: number | undefined = connectable?.connect(signal, () => { callback(binding.get()) })
 
     const unsubscribe = subscribable.subscribe(newConnectable => {
-      connectable.disconnect(id)
+      connectable?.disconnect(id!)
       connectable = newConnectable
-      id = connectable.connect(signal, () => { callback(binding.get()) })
+      id = connectable?.connect(signal, () => { callback(binding.get()) })
     })
 
     return () => {
       unsubscribe()
-      connectable.disconnect(id)
+      connectable?.disconnect(id!)
     }
   }
 
   const getAsFct = (prevTransform = (x: any) => x) => (transform: (_: any) => any) => {
     const newTransform = (v: any) => transform(prevTransform(v))
-    const newBinding = bind(subscribable).as(obj => newTransform(obj[property]))
+    const newBinding = bind(subscribable).as(obj => newTransform(obj !== undefined ? obj[property] : undefined))
     newBinding.subscribe = getSubscribeFct(newBinding)
     newBinding.as = getAsFct(newTransform)
     return newBinding
