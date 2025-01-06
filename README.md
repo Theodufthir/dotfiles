@@ -4,4 +4,4 @@ Made with [Astal](https://github.com/aylur/ags) and bundled with [AGS](https://g
 
 ## Installation
 
-Uses Nix, the repo contains a flake with default both a default and a homeManager packages
+Uses Nix, the repo contains a flake withboth a regular and a Home Manager package
