@@ -155,11 +155,13 @@ function _nBind<
   const getSubscribeFct = (binding: Binding<Value>) => (callback: (_: Value) => void) => {
     let connectable: Object | undefined = subscribable.get()
     const signal = `notify::${property as string}`
+    callback(binding.get())
     let id: number | undefined = connectable?.connect(signal, () => { callback(binding.get()) })
 
     const unsubscribe = subscribable.subscribe(newConnectable => {
       connectable?.disconnect(id!)
       connectable = newConnectable
+      callback(binding.get())
       id = connectable?.connect(signal, () => { callback(binding.get()) })
     })
 
@@ -177,7 +179,7 @@ function _nBind<
     return newBinding
   }
 
-  const binding = bind(subscribable).as(obj => obj[property])
+  const binding = bind(subscribable).as(obj => (obj !== undefined ? obj[property] : undefined) as Value)
   binding.subscribe = getSubscribeFct(binding)
   binding.as = getAsFct()
   return binding
