@@ -1,8 +1,8 @@
 {
-  description = "My Awesome Desktop Shell";
+  description = "Astal UI shell";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     astal = {
       url = "github:aylur/astal";
@@ -24,12 +24,12 @@
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-  in {
+  in rec {
     packages.${system} = {
       default = ags.lib.bundle {
         inherit pkgs;
         src = ./.;
-        name = "bar";
+        name = "astal-bar";
         entry = "app.ts";
 
         # additional libraries and executables to add to gjs' runtime
@@ -42,7 +42,6 @@
           network
           tray
           wireplumber
-          tray
           powerprofiles
           apps
         ];
@@ -54,13 +53,17 @@
         packages = [pkgs.nodejs];
 
         buildInputs = [
-          # includes all Astal libraries
           ags.packages.${system}.agsFull
 
           # includes astal3 astal4 astal-io by default
           (ags.packages.${system}.default.override { extraPackages = with ags.packages.${system}; []; })
         ];
       };
+    };
+
+    homeManagerModules = {
+      default = self.homeManagerModules.astal-bar;
+      astal-bar.config.home.packages = [packages.${system}.default];
     };
   };
 }
