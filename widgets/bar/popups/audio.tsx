@@ -1,9 +1,9 @@
 import Wp from "gi://AstalWp";
 import Button from "../../common/components/button";
-import TablerIcon from "../../common/components/tabler_icon";
 import { nBind } from "../../../utils/variables";
 import { Astal, Gtk } from "astal/gtk3"
 import { getAudioEndpointIcon } from "../../../utils/audio";
+import TablerIcon, { TablerIconName } from "../../common/components/tabler_icon";
 import PopupWindow, { PopupWindowProps } from "../../common/windows/popup";
 
 const wp = Wp.get_default()
@@ -12,7 +12,7 @@ const wp = Wp.get_default()
 const Output = (output: Wp.Endpoint) =>
   <box spacing={10}>
     <box className="indicator">
-      <TablerIcon icon={getAudioEndpointIcon(output)}/>
+      <TablerIcon icon={getAudioEndpointIcon(output) as TablerIconName}/>
       {nBind(output, "volume").as(v => `${(v * 100).toFixed(0)}%`)}
     </box>
     <Button className="highlightable"

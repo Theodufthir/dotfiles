@@ -1,9 +1,9 @@
 import Mpris from "gi://AstalMpris"
 import Button from "../../common/components/button";
-import TablerIcon from "../../common/components/tabler_icon";
-import {nBind } from "../../../utils/variables";
+import { nBind } from "../../../utils/variables";
 import { Astal, Gtk } from "astal/gtk3"
 import { Binding, Variable } from "astal"
+import TablerIcon, { TablerIconName } from "../../common/components/tabler_icon";
 import PopupWindow, { PopupWindowProps } from "../../common/windows/popup";
 
 const mpris = Mpris.get_default()
@@ -17,7 +17,7 @@ const Infos = (player: Mpris.Player) =>
   </box>
 
 
-interface ControlProps { icon: string | Binding<string>; callback: () => void; sensitive: Binding<boolean>; }
+interface ControlProps { icon: TablerIconName | Binding<string>; callback: () => void; sensitive: Binding<boolean>; }
 
 const Control = ({ sensitive, callback, icon }: ControlProps) =>
   <Button className={sensitive.as(s => s ? "highlightable" : "disabled")}

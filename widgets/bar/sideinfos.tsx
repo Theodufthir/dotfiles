@@ -1,19 +1,19 @@
 import Net from "gi://AstalNetwork";
 import WpSvc from "gi://AstalWp";
-import Button from "../common/components/button";
-import TablerIcon from "../common/components/tabler_icon";
-import AudioPopup from "./popups/audio";
 import BatterySvc from "gi://AstalBattery";
 import BluetoothSvc from "gi://AstalBluetooth";
-import NetworkPopup from "./popups/network";
 import BrightnessSvc from "../../services/brightness.js"
-import HoverRevealer from "../common/components/hover_revealer";
 import PowerProfilesSvc from "gi://AstalPowerProfiles";
+import Button from "../common/components/button";
+import HoverRevealer from "../common/components/hover_revealer";
+import AudioPopup from "./popups/audio";
+import NetworkPopup from "./popups/network";
+import BluetoothPopup from "./popups/bluetooth";
 import { Gtk } from "astal/gtk3"
 import { Variable } from "astal"
 import { nDerive, nBind } from "../../utils/variables";
 import { toggleOnCurrentMonitor } from "../../utils/monitors";
-import BluetoothPopup from "./popups/bluetooth";
+import TablerIcon, { TablerIconName } from "../common/components/tabler_icon";
 
 const wp = WpSvc.get_default()
 const battery = BatterySvc.get_default()
@@ -47,15 +47,15 @@ const Bluetooth = () => {
 const Network = () => {
   const icon = nDerive(network, ["primary", "wifi"], ({ primary, wifi }) => {
     if (primary === Net.Primary.WIFI) {
-      let suffix = ""
       if (wifi.internet === Net.Internet.CONNECTING) {
         return "refresh"
       } else if (wifi.internet === Net.Internet.DISCONNECTED) {
-        suffix = "-off"
+        return "wifi-off"
       } else if (wifi.strength < 75) {
-        suffix = "-" + Math.floor(wifi.strength / 25)
+        return "wifi-" + Math.floor(wifi.strength / 25) as TablerIconName
+      } else {
+        return "wifi"
       }
-      return "wifi" + suffix
     } else if (primary === Net.Primary.WIRED) {
       return "network"
     } else {

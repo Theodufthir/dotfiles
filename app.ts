@@ -1,14 +1,14 @@
 import Bar from "./widgets/bar"
 import AudioPopup from "./widgets/bar/popups/audio";
+import MediaPopup from "./widgets/bar/popups/media";
+import NetworkPopup from "./widgets/bar/popups/network";
+import BluetoothPopup from "./widgets/bar/popups/bluetooth";
 import VolumeIndicator from "./widgets/indicators/volume";
 import BrightnessIndicator from "./widgets/indicators/brightness";
 import { App } from "astal/gtk3"
 import { reloadCss } from "./utils/style";
 import { monitorFile } from "astal/file"
 import { registerMultiWorkspace } from "./utils/monitors";
-import MediaPopup from "./widgets/bar/popups/media";
-import NetworkPopup from "./widgets/bar/popups/network";
-import BluetoothPopup from "./widgets/bar/popups/bluetooth";
 
 
 App.start({

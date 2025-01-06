@@ -1,6 +1,6 @@
 import Tray from "./tray";
 import Media from "./media";
-import TraySvc from "gi://AstalTray"
+import TraySvc from "gi://AstalTray";
 import TablerIcon from "../common/components/tabler_icon";
 import Workspaces from "./workspaces"
 import Notifications from "./notifications";

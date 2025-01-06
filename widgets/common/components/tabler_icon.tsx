@@ -1,20 +1,21 @@
-import { Widget } from "astal/gtk3"
+import symbols from "../../../assets/tabler-icons.json"
 import { Binding } from "astal"
-import { readFile } from "astal/file"
+import { Widget } from "astal/gtk3"
+
+export type TablerIconName = keyof typeof symbols
 
 export interface TablerIconProps extends Widget.LabelProps {
-  icon: string | Binding<string>
+  icon: TablerIconName | Binding<TablerIconName | string>
   alt?: string
   size?: number
 }
-
-const symbols = JSON.parse(readFile('./assets/tabler-icons.json'))
 
 const TablerIcon = ({ icon, alt = "???", size, ...props }: TablerIconProps) => {
   return <label
     {...props}
     css={"font-family: 'tabler-icons'; " + (size ? `font-size: ${size}px; ` : "") + (props.css ?? "")}
     className={"tabler-icon " + (props.className ?? "")}
+    // @ts-ignore
     label={(typeof(icon) === "string") ? symbols[icon] ?? alt : icon.as(value => symbols[value] ?? alt)}/>
 }
 
