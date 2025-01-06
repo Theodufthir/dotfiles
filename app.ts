@@ -33,6 +33,9 @@ App.start({
             const window = App.get_window(args[1])
             if (window && !window.get_accept_focus()) window.hide()
             res("ok")
+        } else if (args[0] === "quit") {
+            App.quit()
+            res("ok")
         }
     }
 })
