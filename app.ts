@@ -25,7 +25,10 @@ App.start({
         monitorFile(`${SRC}/style.scss`, reloadCss)
         reloadCss()
     },
-    requestHandler(request, res) {
+    client: (message: (msg: string) => string, ...args: Array<string>) => {
+        if (args[0] === "quit") message("quit")
+    },
+    requestHandler: (request, res) => {
         const args = request.split(" ")
         if (args.length < 1) return
 
