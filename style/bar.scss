@@ -66,17 +66,14 @@
       color: $accent-color;
     }
   }
-  
+
+
+  .media.no-media {
+    font-style: italic;
+  }
+
   .media {
     margin: -2px 0px; // Fix for taller characters
-  
-    .no-media {
-      font-style: italic;
-    }
-  
-    .tabler-icon {
-      margin: 0px -4px;
-    }
   }
 }
  
