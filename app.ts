@@ -20,9 +20,9 @@ App.start({
           AudioPopup, MediaPopup, NetworkPopup, BluetoothPopup
         ].forEach(registerMultiWorkspace)
 
-        App.add_icons(`./assets/icons`)
-        monitorFile(`/style`, () => reloadCss())
-        monitorFile(`./style.scss`, () => reloadCss())
+        App.add_icons(`${SRC}/assets/icons`)
+        monitorFile(`${SRC}/style`, reloadCss)
+        monitorFile(`${SRC}/style.scss`, reloadCss)
         reloadCss()
     },
     requestHandler(request, res) {
