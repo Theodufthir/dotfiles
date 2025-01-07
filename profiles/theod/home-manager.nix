@@ -1,6 +1,6 @@
-{ config, pkgs-unstable, ags, ... }:
+{ config, pkgs-unstable, astal-bar, ... }:
 {
-  imports = [ ags ];
+  imports = [ astal-bar ];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -27,7 +27,6 @@
     playerctl
     jq
     wofi
-    eww
     tabler-icons
     jetbrains.pycharm-professional
     jetbrains.phpstorm
@@ -69,6 +68,9 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set smartindent
+
+nnoremap <A-Left> :tabprevious<CR>
+nnoremap <A-Right> :tabnext<CR>
 '';
     defaultEditor = true;
   };
@@ -79,8 +81,6 @@ set smartindent
     
     shellAliases = {
       edit-config-nixos = "(cd /etc/nixos && sudo vim .)";
-      edit-config-eww = "(cd ~/.config/eww && vim .)";
-      edit-config-ags = "(cd ~/.config/ags && vim .)";
       rebuild-nixos = "sudo nixos-rebuild switch";
       update-nixos = "(cd /etc/nixos && sudo nix flake update)";
       list-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --list-generations"; 
@@ -98,17 +98,7 @@ set smartindent
 
   programs.foot = {
     enable = true;
-    settings.main.font = "monospace:size=11";
-  };
-
-  programs.ags = {
-    enable = true;
-
-    extraPackages = with pkgs-unstable; [
-      gtksourceview
-      webkitgtk
-      accountsservice
-    ];
+    settings.main.font = "monospace:size=11,0xproto";
   };
 
   systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs-unstable "eDP-1";

@@ -21,19 +21,16 @@
     ];
 
     windowrulev2 = [
-      "opacity 0.9 0.7 1, class:(kitty|foot)"
-      "bordercolor $orange, tag:resize"
-      #"suppressevent maximize, class:.*" # You'll probably like this.
+      "opacity 0.9 0.7 1, class:(foot)"
+      #"suppressevent maximize, class:.*"
     ];
 
     layerrule = [
-      "blur, eww.*-blur.*"
-      "blurpopups, (eww.*-blur.*|eww-bar)"
       "animation slide, (.*)"
     ];
 
     exec-once = [
-      "ags &> /tmp/ags_logs"
+      "astal-bar &> /tmp/ui-astal-bar_logs"
       "brightnessctl -r"
       "iio-hyprland" #tofix
     ];

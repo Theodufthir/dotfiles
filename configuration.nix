@@ -63,14 +63,18 @@
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs-unstable; [
-      #nerd-fonts._0xproto
+      nerd-fonts._0xproto
       noto-fonts-cjk-sans
       noto-fonts-emoji
     ];
     
     fontconfig = {
       defaultFonts = {
-        #sansSerif = [ "nerd-fonts" "noto-fonts" "noto-fonts-cjk-sans" ];
+        sansSerif = [
+	  "noto-fonts-cjk-sans"
+	  "noto-fonts"
+	  "0xproto"
+	];
       };
     };
   };
