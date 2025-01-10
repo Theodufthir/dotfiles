@@ -20,7 +20,7 @@ export interface FilteredSectionsProps<T, S> extends Widget.BoxProps {
 function FilteredSections<T extends Connectable, S extends (keyof T)[]>(
   { source, triggers, template, sections, ...props }: FilteredSectionsProps<T, S>,
 ) {
-  const sectionsMap: { section: Section<T>, container: Gtk.Container }[] = []
+  const sectionsMap: Map<Gtk.Container, Section<T>> = new Map
   const cleanupMap: Map<T, () => void> = new Map
 
   const children = sections.map(child => {
@@ -30,12 +30,19 @@ function FilteredSections<T extends Connectable, S extends (keyof T)[]>(
     } else {
       const section = child as Section<T>
       const widget = <box {...section.props}>{section.adds}</box>
-      sectionsMap.push({ section, container: (widget as Gtk.Container) })
+      sectionsMap.set(widget as Gtk.Container, section)
       return widget
     }
   }) as Gtk.Widget[]
 
-  const findMatchingSection = (obj: T) => sectionsMap.find(s => s.section.filter(obj))?.container
+  const sectionsList = [...sectionsMap.entries()].map(([container, section]) => ({ container, section }))
+  const findMatchingSection = (obj: T) => sectionsList.find(({ section }) => section.filter(obj))?.container
+  const computeContainerVisibility = (container?: Gtk.Container | null) => {
+    if (container === null) return
+    const toCompute = container === undefined ? sectionsList : [{ container, section: sectionsMap.get(container)! }]
+    for (const { section, container } of toCompute.filter(({ section }) => section.hideIfEmpty))
+      container.set_visible(container.get_children().length > (section.adds?.length ?? 0))
+  }
 
   const handleObjs = (objs: T[]) => {
     const toCleanup = new Set(cleanupMap.keys())
@@ -45,11 +52,17 @@ function FilteredSections<T extends Connectable, S extends (keyof T)[]>(
         const widget = template(obj)
         findMatchingSection(obj)?.add(widget)
         trigger.subscribe(objNow => {
-          const container = findMatchingSection(objNow)
-          if (container !== undefined)
-            widget.reparent(container)
+          const newParent = findMatchingSection(objNow) ?? null
+          const oldParent = widget.parent
+          if (oldParent === newParent) return
+
+          if (newParent !== null)
+            widget.reparent(newParent)
           else
             widget.unparent()
+
+          computeContainerVisibility(oldParent)
+          computeContainerVisibility(newParent)
         })
         cleanupMap.set(obj, () => {
           try { trigger.drop() } catch (e) {}
@@ -62,10 +75,7 @@ function FilteredSections<T extends Connectable, S extends (keyof T)[]>(
     })
     for (const obj of toCleanup)
       cleanupMap.get(obj)!()
-    for (const { section, container } of sectionsMap.values()) {
-      if (section.hideIfEmpty)
-        container.set_visible(container.get_children().length > (section.adds?.length ?? 0))
-    }
+    computeContainerVisibility()
   }
 
   handleObjs(source.get())
