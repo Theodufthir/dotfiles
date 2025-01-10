@@ -37,7 +37,7 @@ const Bluetooth = () => {
   return <Button
     className="highlightable"
     onPrimaryClick={() => toggleOnCurrentMonitor(BluetoothPopup)}
-    onSecondaryClick={bluetooth.toggle}
+    onSecondaryClick={() => bluetooth.toggle()}
     tooltipText={tooltipText}>
     <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
   </Button>
