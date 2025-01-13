@@ -45,14 +45,18 @@ const Bluetooth = () => {
 
 
 const Network = () => {
-  const icon = nDerive(network, ["primary", "wifi"], ({ primary, wifi }) => {
+  const icon = Variable.derive([
+    nBind(network, "primary"),
+    nBind(network, "wifi", "internet"),
+    nBind(network, "wifi", "strength")
+  ], (primary, status, strength) => {
     if (primary === Net.Primary.WIFI) {
-      if (wifi.internet === Net.Internet.CONNECTING) {
+      if (status === Net.Internet.CONNECTING) {
         return "refresh"
-      } else if (wifi.internet === Net.Internet.DISCONNECTED) {
+      } else if (status === Net.Internet.DISCONNECTED) {
         return "wifi-off"
-      } else if (wifi.strength < 75) {
-        return "wifi-" + Math.floor(wifi.strength / 25) as TablerIconName
+      } else if (strength < 75) {
+        return "wifi-" + Math.floor(strength / 25) as TablerIconName
       } else {
         return "wifi"
       }

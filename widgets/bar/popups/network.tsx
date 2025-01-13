@@ -15,14 +15,22 @@ const Wifi = (wifi: Network.AccessPoint) => {
     (strength, active) => wifi === active ? "check" : (strength < 75 ? ("wifi-" + Math.floor(strength / 25)) : "wifi")
   )
 
-  return <box spacing={10}>
-    <box>
+  const toggleConnection = () => {
+    const cmd = network.wifi.internet !== Network.Internet.DISCONNECTED && network.wifi.ssid === wifi.ssid ?
+      `disconnect ${network.wifi.device.interface}` : `wifi connect ${wifi.ssid}`
+    execAsync(`nmcli device ${cmd}`).then(console.log).catch(console.log)
+  }
+
+  return <box spacing={10} className="wifi-item">
+    <box className="indicator">
       <TablerIcon icon={nBind(icon)} onDestroy={() => icon.drop()}/>
       {nBind(wifi, "frequency").as(f => `${(f / 1000).toFixed(1)}GHz`)}
     </box>
-    <Button className="highlightable wifi-item"
-            onPrimaryClick={() => execAsync(`nmcli d wifi connect ${wifi.ssid}`)}>
-      <label truncate hexpand halign={Gtk.Align.END} label={wifi.ssid ?? wifi.bssid}/>
+    <Button className="highlightable"
+            onPrimaryClick={toggleConnection}>
+      <label truncate hexpand halign={Gtk.Align.END}
+             tooltipText={wifi.ssid ?? wifi.bssid}
+             label={wifi.ssid ?? wifi.bssid}/>
     </Button>
   </box>
 }
