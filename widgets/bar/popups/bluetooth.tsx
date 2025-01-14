@@ -48,23 +48,21 @@ const BluetoothPopup = (props: PopupWindowProps) =>
       sections={[
         {
           filter: (d: Bluetooth.Device) => d.connected,
-          adds: [<label label="Connected"/>],
-          hideIfEmpty: true,
-          props: { vertical: true }
+          adds: [<label label="Connected"/>]
         },
         {
           filter: (d: Bluetooth.Device) => d.paired,
-          adds: [<label label="Paired"/>],
-          hideIfEmpty: true,
-          props: { vertical: true }
+          adds: [<label label="Paired"/>]
         },
         {
-          filter: _ => true,
-          adds: [<label label="Detected"/>],
-          hideIfEmpty: true,
-          props: { vertical: true }
+          filter: (_: any) => true,
+          adds: [<label label="Detected"/>]
         }
-      ]}
+      ].map(props => ({
+        ...props,
+        hideIfEmpty: true,
+        props: { vertical: true, className: "device-list" }
+      }))}
     />
   </PopupWindow>
 

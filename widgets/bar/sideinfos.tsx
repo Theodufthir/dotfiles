@@ -32,7 +32,7 @@ const Bluetooth = () => {
     "bluetooth" + (!isPowered ? "-off" : isConnected ? "-connected" : "")
   )
 
-  const tooltipText = nBind(bluetooth, "devices").as(devices => devices.length + " device(s) connected")
+  const tooltipText = nBind(bluetooth, "devices").as(devices => devices.length + " device(s) detected")
 
   return <Button
     className="highlightable"
