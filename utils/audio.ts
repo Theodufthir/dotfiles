@@ -1,11 +1,12 @@
 import Wp from "gi://AstalWp"
+import { TablerIconName } from "../widgets/common/components/tabler_icon";
 
 function getAudioEndpointName({ icon, name, description }: Wp.Endpoint): string {
   return icon.endsWith("bluetooth") ? name : description
 }
 
-function getAudioEndpointIcon({ icon }: Wp.Endpoint): string {
-  const iconMappings = new Map<string, string>([
+function getAudioEndpointIcon({ icon }: Wp.Endpoint): TablerIconName {
+  const iconMappings = new Map<string, TablerIconName>([
     ["audio-speakers", "device-speaker"],
     ["audio-speakers-bluetooth", "device-speaker"],
     ["audio-headset-bluetooth", "headset"],
@@ -16,16 +17,16 @@ function getAudioEndpointIcon({ icon }: Wp.Endpoint): string {
   return iconMappings.get(icon ?? "") ?? "speakerphone"
 }
 
-function getAudioEndpointVolumeIcon({ mute, volume }: Wp.Endpoint) {
-  let suffix = ""
+function getAudioEndpointVolumeIcon({ mute, volume }: Wp.Endpoint): TablerIconName {
   if (mute) {
-    suffix = "-off"
+    return "volume-off"
   } else if (volume === 0) {
-    suffix = "-3"
+    return "volume-3"
   } else if (volume < 0.5) {
-    suffix = "-2"
+    return "volume-2"
+  } else {
+    return "volume"
   }
-  return "volume" + suffix
 }
 
 export {
