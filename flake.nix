@@ -3,12 +3,17 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    
+    tabler-icons = {
+      url = "github:theodufthir/tabler-icons-nixpkg";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
     astal = {
       url = "github:aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,13 +25,18 @@
     self,
     nixpkgs,
     ags,
+    tabler-icons,
     ...
   }: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs { 
+      inherit system;
+      overlays = [ tabler-icons.overlays.default ];
+    };
   in rec {
     packages.${system} = {
-      default = ags.lib.bundle {
+      default = ags.lib.bundle { # TODO find a way to include tabler-icons font
+
         inherit pkgs;
         src = ./.;
         name = "astal-bar";
@@ -49,8 +59,8 @@
     };
 
     devShells.${system} = {
-      default = pkgs.mkShell {
-        packages = [pkgs.nodejs];
+      default = pkgs.mkShell { # TODO find a way to include tabler-icons font
+        packages = with pkgs; [nodejs];
 
         buildInputs = [
           ags.packages.${system}.agsFull
@@ -63,7 +73,10 @@
 
     homeManagerModules = {
       default = self.homeManagerModules.astal-bar;
-      astal-bar.config.home.packages = [packages.${system}.default];
+      astal-bar.config.home.packages = [
+        packages.${system}.default
+        pkgs.tabler-icons
+      ];
     };
   };
 }
