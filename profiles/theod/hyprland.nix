@@ -1,8 +1,15 @@
-{
-  settings = {
-    "$orange" = "rgba(ee8844ee)";
-    "$pink" = "rgba(ff2277ee)";
-    "$violet" = "rgba(9966ffee)";
+let
+  orange = "ee8844";
+  pink = "ff2277";
+  violet = "9966dd";
+  light-gray = "b0b4bc";
+  set_opacity = color: opacity: "rgba(${color}${opacity})";
+in {
+  settings = rec {
+    "$orange" = "rgb(${orange})";
+    "$pink" = "rgb(${pink})";
+    "$violet" = "rgb(${violet})";
+    "$light-gray" = "rgb(${light-gray})";
     "$mod" = "SUPER";
     "$super_press_delay" = 180; # in milliseconds
 
@@ -58,8 +65,8 @@
       gaps_in = 5;
       gaps_out = 10;
       border_size = 1;
-      "col.active_border" = "$orange $pink $violet $violet $violet $pink $orange 45deg";
-      "col.inactive_border" = "rgba(9966ff55)";
+      "col.active_border" = "$violet";
+      "col.inactive_border" = set_opacity violet "40";
 
       layout = "dwindle";
       
@@ -101,8 +108,6 @@
 
       animation = [
         "windows, 1, 7, fading, slide"
-        "border, 1, 10, default"
-        "borderangle, 0, 20, linear, loop"
         "fade, 1, 7, fading"
         "fadeIn, 0"
         "fadeOut, 1, 4, fade_out"
@@ -132,11 +137,18 @@
       focus_on_activate = true;
       new_window_takes_over_fullscreen = 2;
       disable_autoreload = true; # I have to rebuild anyways
+      animate_manual_resizes = true;
     };
 
     group = {
+      "col.border_active" = "$orange";
+      "col.border_inactive" = set_opacity orange "40";
+
       groupbar = {
         render_titles = false;
+	gradients = false;
+	"col.active" = "$orange";
+	"col.inactive" = set_opacity orange "40";
       };
     };
 
