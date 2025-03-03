@@ -23,8 +23,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "Europe/Paris";
+  services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -79,19 +78,21 @@
     };
   };
 
-  hardware.pulseaudio.enable = false;
+  hardware.keyboard.qmk.enable = true;
+  services.udev.packages = [pkgs-unstable.via];
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
   };
 
   security.rtkit.enable = true;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
     jack.enable = true;
   };
 

@@ -9,11 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    tabler-icons.url = "github:theodufthir/tabler-icons-nixpkg";
     astal-bar.url = "github:theodufthir/dotfiles/astal-config";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, tabler-icons, astal-bar, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, astal-bar, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs-unstable.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -22,9 +21,6 @@
           pkgs-unstable = import nixpkgs-unstable {
             inherit system;
             config.allowUnfree = true;
-            overlays = [
-              tabler-icons.overlays.default
-            ];
           };
 	  astal-bar = astal-bar.homeManagerModules.default;
         };

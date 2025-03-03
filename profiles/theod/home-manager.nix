@@ -19,6 +19,7 @@
   };
 
   home.packages = (with pkgs-unstable; [
+    via
     btop
     iio-hyprland #tofix
     foot
@@ -27,7 +28,6 @@
     playerctl
     jq
     wofi
-    tabler-icons
     jetbrains.pycharm-professional
     jetbrains.phpstorm
     jetbrains.webstorm

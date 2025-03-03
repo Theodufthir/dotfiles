@@ -22,6 +22,9 @@
 
     windowrulev2 = [
       "opacity 0.9 0.7 1, class:(foot)"
+      "noborder,class:(jetbrains-.*),floating:1"
+      "stayfocused,class:(jetbrains-.*),floating:1"
+      "nofocus,class:(jetbrains-.*),title:(win.*),floating:1"
       #"suppressevent maximize, class:.*"
     ];
 
@@ -64,6 +67,7 @@
     };
 
     xwayland = {
+      use_nearest_neighbor = false;
       force_zero_scaling = true;
     };
 
@@ -71,7 +75,7 @@
       rounding = 15;
 
       blur = {
-          enabled = true;
+          enabled = false;
           size = 8;
           passes = 2;
       };
@@ -130,6 +134,12 @@
       disable_autoreload = true; # I have to rebuild anyways
     };
 
+    group = {
+      groupbar = {
+        render_titles = false;
+      };
+    };
+
     bind = [
       # Clients
       "$mod, Return, exec, foot"
@@ -156,6 +166,7 @@
       "$mod, TAB, changegroupactive, forward"
       "$mod SHIFT, TAB, changegroupactive, back"
       "$mod, G, togglegroup"
+      "$mod SHIFT, G, denywindowfromgroup"
 
       # Workspaces
       "$mod, ESCAPE, togglespecialworkspace, magic"
