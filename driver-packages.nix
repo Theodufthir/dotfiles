@@ -1,19 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, fprintd-55b4, ... }:
 {
-/*
-  environment.systemPackages = with pkgs; [
-    fprintd
+  environment.systemPackages = [
+    #fprintd-55b4
+    pkgs.libusb1
   ];
 
   services.fprintd = {
     enable = true; # Not supported for now
-    package = pkgs.fprintd-tod;
-    tod = {
-      enable = true;
-      driver = pkgs.libfprint-2-tod1-goodix;
-    };
+    #package = pkgs.fprintd.override { libfprint = fprintd-55b4; };
   };
-*/
 
   hardware.sensor.iio.enable = true;
   boot.extraModprobeConfig = ''
