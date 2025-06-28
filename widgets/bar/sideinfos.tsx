@@ -82,18 +82,22 @@ const Network = () => {
 }
 
 
-const Brightness = () =>
-  <HoverRevealer
-    transitionDuration={400}
-    transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}>
+const Brightness = () => {
+  if (!brightness)
+    return null
+
+  return <HoverRevealer
+      transitionDuration={400}
+      transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}>
     <TablerIcon icon={nBind(brightness, "screen").as(b => "sun" + (b < 0.2 ? "-low" : b > 0.8 ? "-high" : ""))}/>
     <slider
-      drawValue={false}
-      className="slider highlightable"
-      value={nBind(brightness, "screen")}
-      // TODO onChange
+        drawValue={false}
+        className="slider highlightable"
+        value={nBind(brightness, "screen")}
+        // TODO onChange
     />
   </HoverRevealer>
+}
 
 
 function Volume() {

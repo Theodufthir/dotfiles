@@ -8,21 +8,21 @@ const kbd = exec(`sh -c 'ls -w1 /sys/class/leds | grep "kbd" | head -1'`)
 
 @register({ GTypeName: "Brightness" })
 export default class Brightness extends GObject.Object {
-  static instance: Brightness
+  static instance: Brightness | null
 
   static get_default() {
-    if (!this.instance)
-      this.instance = new Brightness()
+    if (this.instance == undefined)
+      this.instance = screen || kbd ? new Brightness() : null
     return this.instance
   }
 
-  #kbdMax = get(`--device ${kbd} max`)
-  #kbd = get(`--device ${kbd} get`)
+  #kbdMax = 0
+  #kbd = 0
 
-  #screenMax = get("max")
-  #screenExponent = 5
-  #screenWeight = 1 - (1/this.#screenMax)**(1/this.#screenExponent);
-  #screen = get("get") / (get("max") || 1)
+  #screenMax = 0
+  #screenExponent = 0
+  #screenWeight = 0
+  #screen = 0
 
   @property(Number)
   get kbd() { return this.#kbd }
@@ -59,24 +59,35 @@ export default class Brightness extends GObject.Object {
   constructor() {
     super()
 
-    const screenPath = `/sys/class/backlight/${screen}/brightness`
-    const kbdPath = `/sys/class/leds/${kbd}/brightness`
+    if (screen) {
+      const screenPath = `/sys/class/backlight/${screen}/brightness`
+      this.#screenMax = get("max")
+      this.#screenExponent = 5
+      this.#screenWeight = 1 - (1 / this.#screenMax) ** (1 / this.#screenExponent);
+      this.#screen = get("get") / (get("max") || 1)
 
-    const update = async (f: string) => {
-      const v = await readFileAsync(f)
-      const percent = (Number(v)/this.#screenMax)**(1/this.#screenExponent)
-      this.#screen = 1 + (percent - 1) / this.#screenWeight
-      this.notify("screen")
+      const update = async (f: string) => {
+        const v = await readFileAsync(f)
+        const percent = (Number(v) / this.#screenMax) ** (1 / this.#screenExponent)
+        this.#screen = 1 + (percent - 1) / this.#screenWeight
+        this.notify("screen")
+      }
+
+      monitorFile(screenPath, update)
+      update(screenPath)
     }
 
-    monitorFile(screenPath, update)
-    update(screenPath)
+    if (kbd) {
+      const kbdPath = `/sys/class/leds/${kbd}/brightness`
+      this.#kbdMax = get(`--device ${kbd} max`)
+      this.#kbd = get(`--device ${kbd} get`)
 
-    // TODO fix this: doesn't work when changed without using "kbd" property setter
-    monitorFile(kbdPath, async f => {
-      const v = await readFileAsync(f)
-      this.#kbd = Number(v)
-      this.notify("kbd")
-    })
+      // TODO fix this: doesn't work when changed without using "kbd" property setter
+      monitorFile(kbdPath, async f => {
+        const v = await readFileAsync(f)
+        this.#kbd = Number(v)
+        this.notify("kbd")
+      })
+    }
   }
 }
