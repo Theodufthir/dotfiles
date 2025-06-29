@@ -61,6 +61,10 @@ in {
       tablet.output = "eDP-1";
     };
 
+    binds = {
+      hide_special_on_workspace_change = true;
+    };
+
     general = {
       gaps_in = 5;
       gaps_out = 10;
@@ -149,6 +153,11 @@ in {
 	gradients = false;
 	"col.active" = "$orange";
 	"col.inactive" = set_opacity orange "40";
+	indicator_height = 4;
+	gaps_out = 4;
+	gaps_in = 6;
+	rounding = 4;
+	round_only_edges = false;
       };
     };
 
