@@ -7,7 +7,7 @@ import Notifications from "./notifications";
 import { nBind } from "../../utils/variables";
 import { Astal, Gtk } from "astal/gtk3"
 import BaseWindow, { BaseWindowProps } from "../common/windows/base";
-import { Battery, Bluetooth, Brightness, Network, Time, Volume } from "./sideinfos";
+import { Battery, Bluetooth, Brightness, Network, Power, Time, Volume } from "./sideinfos";
 
 const Bar = ({ monitor = 0, ...props }: BaseWindowProps) => <BaseWindow
   name="Bar"
@@ -38,6 +38,7 @@ const Bar = ({ monitor = 0, ...props }: BaseWindowProps) => <BaseWindow
       <Bluetooth/>
       <Network/>
       <Battery/>
+      <Power/>
       <Time/>
     </box>
   </centerbox>

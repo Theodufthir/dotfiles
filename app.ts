@@ -1,4 +1,5 @@
 import Bar from "./widgets/bar"
+import PowerPopup from "./widgets/bar/popups/power";
 import AudioPopup from "./widgets/bar/popups/audio";
 import MediaPopup from "./widgets/bar/popups/media";
 import NetworkPopup from "./widgets/bar/popups/network";
@@ -17,7 +18,7 @@ App.start({
         [
           Bar,
           BrightnessIndicator, VolumeIndicator,
-          AudioPopup, MediaPopup, NetworkPopup, BluetoothPopup
+          AudioPopup, MediaPopup, NetworkPopup, BluetoothPopup, PowerPopup
         ].forEach(registerMultiWorkspace)
 
         App.add_icons(`${SRC}/assets/icons`)

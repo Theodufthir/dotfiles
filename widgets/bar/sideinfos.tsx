@@ -6,10 +6,12 @@ import BrightnessSvc from "../../services/brightness.js"
 import PowerProfilesSvc from "gi://AstalPowerProfiles";
 import Button from "../common/components/button";
 import HoverRevealer from "../common/components/hover_revealer";
+import PowerPopup from "./popups/power";
 import AudioPopup from "./popups/audio";
 import NetworkPopup from "./popups/network";
 import BluetoothPopup from "./popups/bluetooth";
 import { Gtk } from "astal/gtk3"
+import { suspend } from "../../utils/power";
 import { Variable } from "astal"
 import { nDerive, nBind } from "../../utils/variables";
 import { toggleOnCurrentMonitor } from "../../utils/monitors";
@@ -129,7 +131,10 @@ function Volume() {
 }
 
 
-function Battery() {
+const Battery = () => {
+  if (!battery.is_present)
+    return null
+
   function switchProfiles() {
     const profiles = powerProfiles.get_profiles()
     const activeIndex = profiles.findIndex(e => e.profile === powerProfiles.get_active_profile())
@@ -169,7 +174,18 @@ function Battery() {
 }
 
 
+const Power = () => (
+    <Button
+      className="highlightable"
+      onPrimaryClick={() => toggleOnCurrentMonitor(PowerPopup)}
+      onSecondaryClick={() => suspend()}>
+    <TablerIcon icon="power"/>
+  </Button>
+)
+
+
 export {
+  Power,
   Battery,
   Bluetooth,
   Brightness,
