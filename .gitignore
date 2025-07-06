@@ -5,3 +5,5 @@ package.json
 node_modules
 result
 .idea
+.direnv
+.envrc

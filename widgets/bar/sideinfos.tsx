@@ -102,7 +102,7 @@ const Brightness = () => {
 }
 
 
-function Volume() {
+const Volume = () => {
   const audio = wp?.get_audio()
   if (!audio) return null
 
@@ -157,7 +157,6 @@ const Battery = () => {
 
   return <Button
     className="battery highlightable"
-    visible={nBind(battery, "isPresent")}
     onSecondaryClick={switchProfiles}
     onHover={() => hovered.set(true)}
     onHoverLost={() => hovered.set(false)}

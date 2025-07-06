@@ -43,16 +43,3 @@ App.start({
         }
     }
 })
-
-/*
-function setupBars() {
-    hyprland.connect('event', ({ active, clients }: , name) => {
-        if (!["fullscreen", "workspace", "activewindow"].includes(name)) return
-        const windowName = Index.naming(active.monitor.id)
-        const window = App.get_window(windowName)
-        const isFullscreen = active.client.class !== "firefox" && clients.find(c => c.address === active.client.address)?.fullscreen > 1
-        window.attribute = isFullscreen ? "autohide" : null
-    })
-}
-setupBars()
-*/
