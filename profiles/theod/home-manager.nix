@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, astal-bar, ... }:
+{ config, pkgs-unstable, astal-bar, hm-host-config, ... }:
 {
   imports = [ astal-bar ];
 
@@ -90,6 +90,10 @@ nnoremap <A-Right> :tabnext<CR>
     };
   };
 
+  programs.direnv = {
+    enable = true;
+  };
+
   programs.starship = {
     enable = true;
     enableBashIntegration = true;
@@ -105,4 +109,4 @@ nnoremap <A-Right> :tabnext<CR>
 
   programs.home-manager.enable = true;
   home.stateVersion = "23.11";
-}
+} #// hm-host-config

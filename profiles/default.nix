@@ -1,6 +1,6 @@
 { config, pkgs, pkgs-latest, home-manager, ... }@self: {
   home-manager.users = {
-    theod = import ./profiles/theod/home-manager.nix self;
+    theod = import ./theod/home-manager.nix self;
   };
   
   users.users = {
