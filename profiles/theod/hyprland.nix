@@ -14,7 +14,7 @@ in {
     "$super_press_delay" = 180; # in milliseconds
 
     debug = {
-      #damage_tracking = 0; # Only activate if shader needs it
+      #damage_tracking = 0; # Only actiate if shader needs it
     };
     
     monitor = [

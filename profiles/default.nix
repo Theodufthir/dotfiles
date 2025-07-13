@@ -1,6 +1,6 @@
-{ config, pkgs, pkgs-latest, home-manager, ... }@self: {
+{ home-manager, pkgs, hm-host-config ? {}, ... }@self: {
   home-manager.users = {
-    theod = import ./theod/home-manager.nix self;
+    theod = pkgs.lib.recursiveUpdate (import ./theod/home-manager.nix self) hm-host-config;
   };
   
   users.users = {

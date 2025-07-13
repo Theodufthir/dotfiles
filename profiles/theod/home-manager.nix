@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, astal-bar, hm-host-config, ... }:
+{ pkgs-unstable, astal-bar, ... }:
 {
   imports = [ astal-bar ];
 
@@ -109,4 +109,4 @@ nnoremap <A-Right> :tabnext<CR>
 
   programs.home-manager.enable = true;
   home.stateVersion = "23.11";
-} #// hm-host-config
+}
