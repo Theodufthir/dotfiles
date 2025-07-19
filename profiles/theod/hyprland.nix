@@ -57,9 +57,6 @@ in {
       kb_layout = "fr";
       follow_mouse = 1;
       sensitivity = 0;
-      touchpad.natural_scroll = "yes";
-      touchdevice.output = "eDP-1";
-      tablet.output = "eDP-1";
     };
 
     binds = {
@@ -95,8 +92,6 @@ in {
       shadow = {
         enabled = false;
       };
-
-      #screen_shader = "/home/theod/.config/hypr/screen_shader.frag";
     };
 
     animations = {
@@ -151,14 +146,14 @@ in {
 
       groupbar = {
         render_titles = false;
-	gradients = false;
-	"col.active" = "$orange";
-	"col.inactive" = set_opacity orange "40";
-	indicator_height = 4;
-	gaps_out = 4;
-	gaps_in = 6;
-	rounding = 4;
-	round_only_edges = false;
+        gradients = false;
+        "col.active" = "$orange";
+        "col.inactive" = set_opacity orange "40";
+        indicator_height = 4;
+        gaps_out = 4;
+        gaps_in = 6;
+        rounding = 4;
+        round_only_edges = false;
       };
     };
 
@@ -170,11 +165,8 @@ in {
       
       '', $mod_L, exec, echo "$(($(date +%s%3N) + $super_press_delay))" > /tmp/hyprland_super_timestamp''
       ''$mod SHIFT, S, exec, mkdir ~/screenshots; path=~/screenshots/"$(date '+%s').png"; grimblast copysave output "$path" && satty -f "$path" --fullscreen''
-      # Power/locking
-      "$mod SHIFT, E, exit,"
+      
       "$mod SHIFT, L, exec, loginctl lock-session"
-      "$mod SHIFT, P, exec, systemctl suspend-then-hibernate"
-      "$mod CTRL, P, exec, systemctl hibernate"
       
       # Disposition
       "$mod, V, togglefloating,"
@@ -185,8 +177,8 @@ in {
       "$mod CTRL, F, fullscreen, 1"
       "$mod SHIFT, SPACE, centerwindow,"
       "$mod SHIFT, V, focuswindow, floating" 
-      "$mod, TAB, changegroupactive, forward"
       "$mod SHIFT, TAB, changegroupactive, back"
+      "$mod, TAB, changegroupactive, forward"
       "$mod, G, togglegroup"
       "$mod SHIFT, G, denywindowfromgroup"
 
@@ -257,6 +249,11 @@ in {
       ", XF86AudioPause, exec, playerctl pause"
       ", XF86AudioNext, exec, playerctl next"
       ", XF86AudioPrev, exec, playerctl previous"
+      
+      # Power/session controls
+      "$mod SHIFT, E, exit,"
+      "$mod SHIFT, P, exec, systemctl suspend-then-hibernate"
+      "$mod CTRL, P, exec, systemctl hibernate"
     ];
 
     # Mouse binds
@@ -265,6 +262,4 @@ in {
       "$mod, mouse:273, resizewindow"
     ];
   };
-
-  extraConfig = "";
 }

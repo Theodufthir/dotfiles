@@ -5,7 +5,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-    inherit (import ./hyprland.nix) settings extraConfig;
+    inherit (import ./hyprland.nix) settings;
   };
 
   programs.hyprlock = {
@@ -108,5 +108,5 @@ nnoremap <A-Right> :tabnext<CR>
   systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs-unstable "eDP-1";
 
   programs.home-manager.enable = true;
-  home.stateVersion = "23.11";
+  home.stateVersion = "25.05";
 }

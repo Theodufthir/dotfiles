@@ -70,10 +70,10 @@
     fontconfig = {
       defaultFonts = {
         sansSerif = [
-	  "noto-fonts-cjk-sans"
-	  "noto-fonts"
-	  "0xproto"
-	];
+          "noto-fonts-cjk-sans"
+          "noto-fonts"
+          "0xproto"
+        ];
       };
     };
   };

@@ -9,5 +9,11 @@
       "desc:LG Electronics LG TV SSCR2 0x01010101,preferred,auto-up,3"
       ",preferred,auto,auto"
     ];
+
+    input = {
+      touchpad.natural_scroll = "yes";
+      touchdevice.output = "eDP-1";
+      tablet.output = "eDP-1";
+    };
   };
 }
