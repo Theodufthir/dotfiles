@@ -1,6 +1,7 @@
 import symbols from "../../../assets/tabler-icons.json"
 import { Binding } from "astal"
 import { Widget } from "astal/gtk3"
+import { bindOrApply } from "../../../utils/variables";
 
 export type TablerIconName = keyof typeof symbols
 
@@ -14,9 +15,9 @@ const TablerIcon = ({ icon, alt = "???", size, ...props }: TablerIconProps) => {
   return <label
     {...props}
     css={"font-family: 'tabler-icons'; " + (size ? `font-size: ${size}px; ` : "") + (props.css ?? "")}
-    className={"tabler-icon " + (props.className ?? "")}
+    className={bindOrApply(props.className, className => `tabler-icon ${className}`)}
     // @ts-ignore
-    label={(typeof(icon) === "string") ? symbols[icon] ?? alt : icon.as(value => symbols[value] ?? alt)}/>
+    label={bindOrApply(icon, icn => symbols[icn] ?? alt)}/>
 }
 
 export default TablerIcon

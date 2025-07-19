@@ -186,8 +186,19 @@ function _nBind<
 }
 
 
+function bindOrApply<
+  Source,
+  Result
+>(src: Source | Binding<Source>, transform: (_: Source) => Result): Result | Binding<Result> {
+  if (src === undefined) return transform(undefined as Source)
+  // @ts-ignore
+  return typeof src["as"] === "function" ? (src as Binding<Source>).as(transform) : transform(src as Source)
+}
+
+
 export {
   nDerive,
   nBind,
-  nTrigger
+  nTrigger,
+  bindOrApply
 }
