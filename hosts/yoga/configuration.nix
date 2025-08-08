@@ -80,6 +80,8 @@
 
   hardware.keyboard.qmk.enable = true;
   services.udev.packages = [pkgs-unstable.via];
+  services.udev.extraRules = ''SUBSYSTEM=="usb", GROUP="usb", MODE="0666"'';
+  services.udisks2.enable = true;
 
   hardware.bluetooth = {
     enable = true;
