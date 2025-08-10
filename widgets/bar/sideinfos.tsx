@@ -50,9 +50,12 @@ const Network = () => {
   const icon = Variable.derive([
     nBind(network, "primary"),
     nBind(network, "wifi", "internet"),
-    nBind(network, "wifi", "strength")
-  ], (primary, status, strength) => {
-    if (primary === Net.Primary.WIFI) {
+    nBind(network, "wifi", "strength"),
+    nBind(network, "wifi", "enabled")
+  ], (primary, status, strength, enabled) => {
+    if (primary === Net.Primary.WIRED) {
+      return "network"
+    } else if (primary === Net.Primary.WIFI || enabled) {
       if (status === Net.Internet.CONNECTING) {
         return "refresh"
       } else if (status === Net.Internet.DISCONNECTED) {
@@ -62,8 +65,6 @@ const Network = () => {
       } else {
         return "wifi"
       }
-    } else if (primary === Net.Primary.WIRED) {
-      return "network"
     } else {
       return "router-off"
     }
