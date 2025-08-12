@@ -1,6 +1,13 @@
 { self, nixpkgs, nixpkgs-unstable, home-manager, astal-bar, ... }@inputs:
 let
-  nixosSystem = { folder, system, useUnstable ? true, specialArgs ? {}, hasHomeManager ? true, modules ? [] }:
+  nixosSystem = {
+    folder, system,
+    useUnstable ? true,
+    specialArgs ? {},
+    hasHomeManager ? true,
+    modules ? [],
+    overlays ? []
+  }:
   (if useUnstable then nixpkgs-unstable else nixpkgs).lib.nixosSystem {
     inherit system;
 
@@ -8,7 +15,7 @@ let
       hm-host-config = if !hasHomeManager then {} else import (./. + "/${folder}/home-manager.nix");
     } // (if !useUnstable then {} else {
       pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
+        inherit system overlays;
         config.allowUnfree = true;
       };
     }) // specialArgs;
@@ -18,6 +25,8 @@ let
     ] ++ (if !hasHomeManager then [] else [ 
       home-manager.nixosModules.home-manager
       {
+        nixpkgs.overlays = overlays;
+
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
@@ -28,9 +37,13 @@ in {
     folder = "yoga";
     system = "x86_64-linux";
     specialArgs = {
-	    fprintd-55b4 = inputs.fprintd-55b4.packages.${system}.default;
 	    astal-bar = astal-bar.homeManagerModules.default;
     };
+    overlays = [
+      (final: prev: {
+        fprintd = inputs.fprintd-55b4.packages.${system}.fprintd;
+      })
+    ];
     modules = [
       ../profiles
           
