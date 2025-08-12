@@ -73,6 +73,11 @@ in {
       layout = "dwindle";
       
       allow_tearing = false;
+
+      snap = {
+        enabled = true;
+        respect_gaps = true;
+      };
     };
 
     xwayland = {
