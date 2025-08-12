@@ -22,6 +22,7 @@ let
 
     modules = modules ++ [
       (./. + "/${folder}/configuration.nix")
+      (./. + "/${folder}/drivers.nix")
       {
         nixpkgs.overlays = overlays;
         nixpkgs.config.allowUnfree = true;

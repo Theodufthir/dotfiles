@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.rocmSupport = true;
+
   environment.systemPackages = [
     pkgs.fprintd
     pkgs.libusb1
