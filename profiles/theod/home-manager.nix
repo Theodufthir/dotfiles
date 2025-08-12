@@ -1,4 +1,4 @@
-{ pkgs-unstable, astal-bar, ... }:
+{ pkgs, astal-bar, ... }:
 {
   imports = [ astal-bar ];
 
@@ -18,7 +18,7 @@
     settings = import ./hypridle.nix;
   };
 
-  home.packages = (with pkgs-unstable; [
+  home.packages = with pkgs; [
     via
     btop
     iio-hyprland #tofix
@@ -37,7 +37,7 @@
     alsa-utils
     sassc
     ardour
-  ]);
+  ];
 
   fonts.fontconfig.enable = true;
 
@@ -105,7 +105,7 @@ nnoremap <A-Right> :tabnext<CR>
     settings.main.font = "monospace:size=11,0xproto";
   };
 
-  systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs-unstable "eDP-1";
+  systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs "eDP-1";
 
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";

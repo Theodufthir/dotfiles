@@ -14,7 +14,7 @@ let
     specialArgs = {
       hm-host-config = if !hasHomeManager then {} else import (./. + "/${folder}/home-manager.nix");
     } // (if !useUnstable then {} else {
-      pkgs-unstable = import nixpkgs-unstable {
+      pkgs-stable-24-05 = import nixpkgs {
         inherit system overlays;
         config.allowUnfree = true;
       };
@@ -22,11 +22,13 @@ let
 
     modules = modules ++ [
       (./. + "/${folder}/configuration.nix")
+      {
+        nixpkgs.overlays = overlays;
+        nixpkgs.config.allowUnfree = true;
+      }
     ] ++ (if !hasHomeManager then [] else [ 
       home-manager.nixosModules.home-manager
       {
-        nixpkgs.overlays = overlays;
-
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
@@ -46,7 +48,6 @@ in {
     ];
     modules = [
       ../profiles
-          
       { programs.hyprland.enable = true; }
     ];
   };
@@ -59,7 +60,6 @@ in {
     };
     modules = [
       ../profiles
-          
       { programs.hyprland.enable = true; }
     ];
   };

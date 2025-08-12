@@ -1,6 +1,6 @@
 # Help is available in the configuration.nix(5) man page or with 'nixos-help'
 
-{ config, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -57,7 +57,7 @@
 # Fonts
   fonts = {
     enableDefaultPackages = true;
-    packages = with pkgs-unstable; [
+    packages = with pkgs; [
       nerd-fonts._0xproto
       noto-fonts-cjk-sans
       noto-fonts-emoji
@@ -66,16 +66,16 @@
     fontconfig = {
       defaultFonts = {
         sansSerif = [
-	  "noto-fonts-cjk-sans"
-	  "noto-fonts"
-	  "0xproto"
-	];
+	        "noto-fonts-cjk-sans"
+	        "noto-fonts"
+	        "0xproto"
+	      ];
       };
     };
   };
 
   hardware.keyboard.qmk.enable = true;
-  services.udev.packages = [pkgs-unstable.via];
+  services.udev.packages = [pkgs.via];
   
   hardware.bluetooth = {
     enable = true;
@@ -93,11 +93,11 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  boot.kernelPackages = pkgs-unstable.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   virtualisation.docker.enable = true;
 
-  environment.systemPackages = (with pkgs-unstable; [
+  environment.systemPackages = (with pkgs; [
     vim
     git
     wget
