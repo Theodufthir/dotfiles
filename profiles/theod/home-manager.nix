@@ -31,12 +31,14 @@
     jetbrains.pycharm-professional
     jetbrains.phpstorm
     jetbrains.webstorm
+    jetbrains.rider
     grimblast
     satty
     vscode
     alsa-utils
     sassc
     ardour
+    godot-mono
   ];
 
   fonts.fontconfig.enable = true;
