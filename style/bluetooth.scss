@@ -1,0 +1,11 @@
+.bluetooth-popup {
+  .device-list .indicator :not(.tabler-icon) {
+    opacity: 0.8;
+    font-style: italic;
+    font-size: 11px;
+  }
+
+  .device-list .tabler-icon {
+    font-size: 20px;
+  }
+}
