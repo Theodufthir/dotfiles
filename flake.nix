@@ -43,7 +43,7 @@
         entry = "app.ts";
 
         # additional libraries and executables to add to gjs' runtime
-        extraPackages = with ags.packages.${system}; [
+        extraPackages = (with ags.packages.${system}; [
           hyprland
           mpris
           battery
@@ -54,7 +54,7 @@
           wireplumber
           powerprofiles
           apps
-        ];
+        ]) ++ [pkgs.sassc];
       };
     };
 
