@@ -14,21 +14,20 @@ const Button = ({
   onPrimaryClick, onSecondaryClick, onMiddleClick,
   $, onDestroy, ...props
 }: ButtonProps) => {
-  const clickHandler = new Gtk.GestureClick({
-    button: 0,
-    propagation_phase: Gtk.PropagationPhase.BUBBLE
-  })
+  const clickHandler = new Gtk.GestureClick({ button: 0 })
 
   const connectionId = clickHandler.connect("pressed", (self, consecutive) => [
-    undefined,
-    onPrimaryClick,
-    onMiddleClick,
-    onSecondaryClick
-  ][self.get_current_button()]?.(
-    self,
-    self.get_current_event() as Gdk.ButtonEvent,
-    consecutive
+      undefined,
+      onPrimaryClick,
+      onMiddleClick,
+      onSecondaryClick
+    ][self.get_current_button()]?.(
+      self,
+      self.get_current_event() as Gdk.ButtonEvent,
+      consecutive
   ))
+
+  const connection2Id = clickHandler.connect("stopped", self => self.reset())
 
   return <button
     $={self => {
@@ -37,6 +36,7 @@ const Button = ({
     }}
     onDestroy={self => {
       clickHandler.disconnect(connectionId)
+      clickHandler.disconnect(connection2Id)
       onDestroy?.call(self, self)
     }}
     {...props}/>
