@@ -1,5 +1,5 @@
 import { Object as GObject } from "gnim/gobject";
-import { Accessor, createComputed, createBinding, createExternal, createConnection } from "gnim";
+import { Accessor, createComputed, createBinding, createExternal } from "gnim";
 
 
 function createMultiBinding<
@@ -42,42 +42,6 @@ function createMultiBinding(obj: GObject | Accessor<GObject>, props: (keyof GObj
   }
 
   throw new Error("Not derivable")
-}
-
-
-function createMultiTrigger<
-  Source extends GObject,
-  Prop extends keyof Source,
->(obj: Source, props: Prop[]): Accessor<Source>
-
-function createMultiTrigger<
-  Source extends GObject,
-  Prop extends keyof Source,
-  Props extends Prop[],
->(obj: Accessor<Source>, props: Props): Accessor<Source>
-
-function createMultiTrigger(obj: GObject | Accessor<GObject>, props: (keyof GObject)[]): Accessor<any> {
-  if (obj instanceof GObject) {
-    // @ts-ignore
-    return createConnection(obj, ...props.map(prop => [obj, `notify::${prop as string}`, _ => obj]))
-  } else if (obj instanceof Accessor) {
-    return createExternal(obj.get(), set => {
-      let unsubscribe = () => {}
-
-      const attachNewDerivation = () => {
-        const trigger = createMultiTrigger(obj.get(), props)
-        unsubscribe()
-        unsubscribe = trigger.subscribe(() => set(trigger.get()))
-        set(trigger.get())
-      }
-
-      attachNewDerivation()
-
-      return obj.subscribe(attachNewDerivation)
-    })
-  }
-
-  throw new Error("Not n-connectable")
 }
 
 
@@ -182,7 +146,7 @@ function _recBind<
 }
 
 
-function bindOrApply<
+function createBindingOrApply<
   Source,
   Result
 >(src: Source | Accessor<Source>, transform: (_: Source) => Result): Result | Accessor<Result> {
@@ -195,5 +159,5 @@ export {
   createMultiBinding,
   createRecBinding,
   //createMultiTrigger,
-  bindOrApply
+  createBindingOrApply
 }

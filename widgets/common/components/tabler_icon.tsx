@@ -1,7 +1,7 @@
 import Gtk from "gi://Gtk";
 import symbols from "../../../assets/tabler-icons.json";
 import { Accessor, CCProps } from "gnim";
-import { bindOrApply } from "../../../utils/variables";
+import { createBindingOrApply } from "../../../utils/variables";
 
 export type TablerIconName = keyof typeof symbols
 
@@ -15,9 +15,9 @@ const TablerIcon = ({ icon, alt = "???", size, ...props }: TablerIconProps) =>
   <label
     {...props}
     css={"font-family: 'tabler-icons'; " + (size ? `font-size: ${size}px; ` : "") + (props.css ?? "")}
-    class={bindOrApply(props.class, cls => `tabler-icon ${cls}`)}
+    class={createBindingOrApply(props.class, cls => `tabler-icon ${cls}`)}
     // @ts-ignore
-    label={bindOrApply(icon, icn => symbols[icn] ?? alt)}
+    label={createBindingOrApply(icon, icn => symbols[icn] ?? alt)}
   />
 
 
