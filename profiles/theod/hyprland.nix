@@ -130,7 +130,6 @@ in {
     };
 
     gestures = {
-      workspace_swipe = "on";
       workspace_swipe_touch = "on";
       workspace_swipe_forever = true;
       workspace_swipe_direction_lock = false;
@@ -161,6 +160,10 @@ in {
         round_only_edges = false;
       };
     };
+
+    gesture = [
+      "3, horizontal, workspace"
+    ];
 
     bind = [
       # Clients
