@@ -3,7 +3,7 @@ import Astal from "gi://Astal?version=4.0";
 import Mpris from "gi://AstalMpris";
 import Button from "../../common/components/button";
 import { createPoll } from "ags/time";
-import { Accessor, createBinding, For } from "gnim";
+import { Accessor, createBinding, For, With } from "gnim";
 import TablerIcon, { TablerIconName } from "../../common/components/tabler_icon";
 import PopupWindow, { PopupWindowProps } from "../../common/windows/popup";
 
@@ -69,9 +69,13 @@ const Position = (player: Mpris.Player) => {
 
 const Player = (player: Mpris.Player) =>
   <box spacing={5}>
-    <box class="cover"
-         css={createBinding(player, "coverArt").as(c => `background-image: url('${c}')`)}>
-      <TablerIcon icon="music" size={120} visible={createBinding(player, "coverArt").as(c => c === null)}/>
+    <box>
+      <With value={createBinding(player, "coverArt")}>
+        {(file: string | null) => file
+          ? <image class="cover" file={file}/>
+          : <TablerIcon icon="music" size={120}/>
+        }
+      </With>
     </box>
     <box valign={Gtk.Align.CENTER} spacing={10} orientation={Gtk.Orientation.VERTICAL}>
       {Infos(player)}
