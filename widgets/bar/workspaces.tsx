@@ -1,7 +1,7 @@
 import Button from "../common/components/button";
 import Hyprland from "gi://AstalHyprland";
 import TablerIcon from "../common/components/tabler_icon";
-import { createBinding, Accessor, For } from "gnim";
+import { createBinding, Accessor, With } from "gnim";
 import { MonitorNeededProps } from "../common/props/monitor";
 
 const hyprland = Hyprland.get_default()
@@ -52,45 +52,39 @@ const Workspace = ({ workspace, monitor }: { workspace: Hyprland.Workspace, moni
 }
 
 const Workspaces = ({ monitor }: MonitorNeededProps) => {
-  const workspaces = createBinding(hyprland, "workspaces")
-    .as((ws: Hyprland.Workspace[]) => {
-      const maxId = Math.max(...ws.map(w => w.id))
-      const regularWorkspaces = [...Array(maxId)].map((_, id) => {
-        const workspace = hyprland.get_workspace(id + 1)
-        return workspace !== null ?
-          <Workspace workspace={workspace} monitor={monitor}/> :
-          <button class="highlightable other-w other-m"
-                  onClicked={() => dispatch(`workspace ${id + 1}`)}>
-            <TablerIcon icon="circle-dashed"/>
-          </button>
-      })
-
-      const specialWorkspaces = ws
-        .filter(w => w.id < 0)
-        .map(w => <Workspace workspace={w} monitor={monitor}/>)
-
-      if (specialWorkspaces.length > 0)
-        specialWorkspaces.push(<TablerIcon icon="minus-vertical" class="separator"/>)
-
-      return [
-        ...specialWorkspaces,
-        ...regularWorkspaces
-      ]
-    })
-
   // additional sync
   const cleanup = createBinding(hyprland, "focusedClient").subscribe(() =>
       hyprland.sync_workspaces(null)
   )
 
-  return <box
-    class="workspaces"
-    spacing={6}
-    onDestroy={cleanup}
-  >
-    <For each={workspaces}>
-      {(workspace) => workspace}
-    </For>
+  return <box onDestroy={cleanup}>
+    <With value={createBinding(hyprland, "workspaces")}>
+      {(ws: Hyprland.Workspace[]) => {
+        const maxId = Math.max(...ws.map(w => w.id))
+        const regularWorkspaces = [...Array(maxId)].map((_, id) => {
+          const workspace = hyprland.get_workspace(id + 1)
+          return workspace !== null ?
+            <Workspace workspace={workspace} monitor={monitor}/> :
+            <button class="highlightable other-w other-m"
+                    onClicked={() => dispatch(`workspace ${id + 1}`)}>
+              <TablerIcon icon="circle-dashed"/>
+            </button>
+        })
+
+        const specialWorkspaces = ws
+          .filter(w => w.id < 0)
+          .map(w => <Workspace workspace={w} monitor={monitor}/>)
+
+        if (specialWorkspaces.length > 0)
+          specialWorkspaces.push(<TablerIcon icon="minus-vertical" class="separator"/>)
+
+        return <box
+          class="workspaces"
+          spacing={6}
+          children={[...specialWorkspaces, ...regularWorkspaces]}
+        />
+      }}
+    </With>
   </box>
 }
 

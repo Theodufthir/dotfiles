@@ -74,6 +74,7 @@ function FilteredSections<T extends GObject, S extends (keyof T)[]>(
         })
         cleanupMap.set(obj, () => {
           unsubscribe()
+          widget.unparent()
           widget.run_dispose()
           cleanupMap.delete(obj)
         })
