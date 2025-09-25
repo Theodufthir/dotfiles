@@ -66,8 +66,15 @@
         ]);
         
         installPhase = ''
+          runHook preInstall
+
           mkdir -p $out/bin
-          ags bundle ${entry} $out/bin/${name}
+          mkdir -p $out/share
+          cp -r * $out/share
+
+          ags bundle ${entry} $out/bin/${name} -d "SRC='$out/share'"
+
+          runHook postInstall
         '';
       };
     };
