@@ -11,19 +11,59 @@ import { reloadCss } from "./utils/style";
 import { monitorFile } from "ags/file";
 import { registerMultiWorkspace } from "./utils/monitors";
 
+function start() {
+  App.add_icons(`${SRC}/assets/icons`)
+  monitorFile(`${SRC}/style`, reloadCss)
+  monitorFile(`${SRC}/style.scss`, reloadCss)
+  reloadCss()
+
+  void [
+    Bar,
+    MediaPopup,
+    AudioPopup, BluetoothPopup, NetworkPopup, PowerPopup,
+    BrightnessIndicator, VolumeIndicator
+  ].map(generator => registerMultiWorkspace(generator))
+}
+
 App.start({
   instanceName: "bar",
   main(...argv) {
-    [
-      Bar,
-      MediaPopup,
-      AudioPopup, BluetoothPopup, NetworkPopup, PowerPopup,
-      BrightnessIndicator, VolumeIndicator
-    ].map(generator => registerMultiWorkspace(generator))
-
-    App.add_icons(`${SRC}/assets/icons`)
-    monitorFile(`${SRC}/style`, reloadCss)
-    monitorFile(`${SRC}/style.scss`, reloadCss)
-    reloadCss()
-  }
+    const command = argv ? argv[0] : undefined
+    switch (command) {
+      case undefined:
+      case "start":
+      case "run":
+        start()
+        break
+      case "quit":
+      case "stop":
+      case "toggle":
+        console.log(`Instance not running: "${command}" unavailable`)
+        App.quit()
+        break
+      default:
+        console.log(`Unknown command: "${command}"`)
+        App.quit()
+    }
+  },
+  requestHandler(argv: string[], res: (response: any) => void) {
+    console.log(`Handling: "${argv.join(" ")}"`)
+    const command = argv[0]
+    switch (command) {
+      case "quit":
+      case "stop":
+        res("Stopping instance...")
+        App.quit();
+        return
+      case "toggle":
+        if (argv.length < 2 || !App.get_window(argv[1]))
+          return res("Error: window not found")
+        App.toggle_window(argv[1])
+        break
+      default:
+        res(`Unknown command: "${command}"`)
+        return
+    }
+    res("ok")
+  },
 })
