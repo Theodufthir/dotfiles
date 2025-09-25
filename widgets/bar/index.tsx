@@ -17,6 +17,8 @@ const Bar = ({ monitor = 0, ...props }: BaseWindowProps) => <BaseWindow
   exclusivity={Astal.Exclusivity.EXCLUSIVE}
   monitor={monitor}
   layer={Astal.Layer.OVERLAY}
+  margin={10}
+  margin_bottom={0}
   {...props}>
   <centerbox>
     <box class="base"

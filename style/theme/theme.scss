@@ -7,7 +7,7 @@
   background-color: $background;
   color: $font-color;
   border-radius: $border-radius;
-  padding: 1px 6px;
+  padding: 2px 6px;
   border: $border;
 }
 
@@ -17,20 +17,36 @@ tooltip {
   border-radius: $border-radius;
   border: $border;
   * {
-    margin: 0px 3px;
+    margin: 1px 3px;
   }
 }
 
-menu {
+popover {
   background-color: $background;
   color: $font-color;
   border-radius: $border-radius;
   border: $border;
   padding: 2px 6px;
+
+  modelbutton:hover {
+    color: $accent-color;
+  }
+
+  separator {
+    margin: 3px 5px;
+    min-height: 1px;
+    background: $font-color;
+  }
 }
 
-.highlightable:hover {
-  color: $accent-color;
+.highlightable {
+  transition-property: color, background-color;
+  transition-duration: 200ms;
+
+  &:hover {
+    color: $accent-color;
+    transition-duration: unset;
+  }
 }
 
 scale trough {
@@ -43,4 +59,3 @@ scale trough {
 scale.highlightable trough highlight:hover {
   background-color: $accent-color;
 }
-
