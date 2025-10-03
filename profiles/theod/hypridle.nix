@@ -2,7 +2,7 @@
   general = {
     before_sleep_cmd = "loginctl lock-session";
     after_sleep_cmd = "hyprctl dispatch dpms on"; # avoid pressing key twice (wakeup + turn on screen)
-    lock_cmd = "pidof hyprlock || hyprlock -q";
+    lock_cmd = "pidof hyprlock || hyprlock -q --grace 5";
     ignore_dbus_inhibit = false;
   };
 

@@ -1,9 +1,7 @@
 {
   general = {
-    disable_loading_bar = true;
-    grace = 2;
-    hide_cursor = true;
     ignore_empty_input = true;
+    fail_timeout = 1000;
   };
 
   background = [
@@ -32,6 +30,25 @@
 
       outline_thickness = 0;
       placeholder_text = "";
+    }
+  ];
+
+  label = [
+    { # Time indicator
+      text = "$TIME";
+      font_family = "0xProto Nerd Font";
+      font_size = 100;
+      position = "0,15%";
+    }
+
+    {
+      text = ''cmd[update:1000] echo "$(playerctl metadata xesam:title) - $(playerctl metadata xesam:artist)" || echo ""'';
+      font_family = "0xProto Nerd Font";
+      color = "rgba(255, 255, 255, 0.5)";
+      position = "0,-2%";
+      halign = "center";
+      valign = "top";
+      onclick = "playerctl play-pause";
     }
   ];
 }
