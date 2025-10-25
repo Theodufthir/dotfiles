@@ -8,7 +8,7 @@
     theod = {
       isNormalUser = true;
       description = "Théo Dufour";
-      extraGroups = [ "networkmanager" "wheel" "audio" "docker" "usb" ];
+      extraGroups = [ "networkmanager" "wheel" "audio" "docker" "usb" "wireshark" ];
     };
   };
 }

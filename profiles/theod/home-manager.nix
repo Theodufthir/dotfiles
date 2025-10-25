@@ -32,6 +32,8 @@
     jetbrains.phpstorm
     jetbrains.webstorm
     jetbrains.rider
+    jetbrains.clion
+    wireshark
     grimblast
     satty
     vscode

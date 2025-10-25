@@ -112,6 +112,11 @@
     criticalPowerAction = "HybridSleep";
   };
 
+  programs.wireshark = {
+    enable = true;
+    usbmon.enable = true;
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
