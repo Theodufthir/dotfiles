@@ -16,4 +16,6 @@
       tablet.output = "eDP-1";
     };
   };
+
+  programs.hyprlock.settings.auth.fingerprint.enabled = true;
 }

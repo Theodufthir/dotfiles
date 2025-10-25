@@ -73,17 +73,17 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1742816827,
-        "narHash": "sha256-gE5S0M5IJ4ngPwwG1IuK1lZEe7eXHFV+NghroquYkuc=",
-        "owner": "oscar-schwarz",
-        "repo": "libfprint-goodix-55b4",
-        "rev": "b62173cdfe5097bdcb42b37d9448ca5bc3c1afbf",
+        "lastModified": 1761342775,
+        "narHash": "sha256-fpcTy+7Hig52xs1wMsaJTsL3yP1OFATF/YnmU4Z33N4=",
+        "owner": "theodufthir",
+        "repo": "libfprint",
+        "rev": "0f5134c767f7fa082957193d0ac10ffb02eeb11f",
         "type": "github"
       },
       "original": {
-        "owner": "oscar-schwarz",
+        "owner": "theodufthir",
         "ref": "55b4-experimental",
-        "repo": "libfprint-goodix-55b4",
+        "repo": "libfprint",
         "type": "github"
       }
     },

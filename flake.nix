@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     astal-bar.url = "github:theodufthir/dotfiles/ags-v2-config";
-    fprintd-55b4.url = "github:/oscar-schwarz/libfprint-goodix-55b4/55b4-experimental";
+    fprintd-55b4.url = "github:/theodufthir/libfprint/55b4-experimental";
   };
 
   outputs = { self, nixpkgs-unstable, home-manager, ... }@inputs: {
