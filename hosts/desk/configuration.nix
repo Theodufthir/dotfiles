@@ -6,15 +6,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  # Networking
   networking.networkmanager.enable = true;
+  networking.hostName = "nixos";
 
   services.automatic-timezoned.enable = true;
 
@@ -33,14 +27,16 @@
     LC_TIME = "fr_FR.UTF-8";
   };
 
-  # X11 config
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.xkb.layout = "fr";
+  # Gnome config
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Wayland config
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # X11 config for compat
+  services.xserver.enable = true;
+  services.xserver.xkb.layout = "fr";
 
   # Configure console keymap
   console.keyMap = "fr";
@@ -48,7 +44,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
   
-# Fonts
+  # Fonts
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [

@@ -56,8 +56,10 @@
 
   programs.git = {
     enable = true;
-    userName = "Théo Dufour";
-    userEmail = "theo.dufthir@gmail.com";
+    settings.user = {
+      name = "Théo Dufour";
+      email = "theo.dufthir@gmail.com";
+    };
   };
 
   programs.neovim = {
