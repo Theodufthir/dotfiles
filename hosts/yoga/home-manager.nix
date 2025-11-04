@@ -18,7 +18,17 @@ pkgs.lib.recursiveUpdate hm-config rec {
     };
   };
 
-  programs.hyprlock.settings.auth.fingerprint.enabled = true;
+  programs.hyprlock.settings = {
+    auth.fingerprint.enabled = true;
+    label = hm-config.programs.hyprlock.settings.label ++ [{
+      text = "$FPRINTFAIL";
+      font_family = "0xProto Nerd Font";
+      color = "rgba(255, 255, 255, 0.5)";
+      font_size = 15;
+      position = "0,2%";
+      valign = "bottom";
+    }];
+  };
 
   systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs "eDP-1";
 }

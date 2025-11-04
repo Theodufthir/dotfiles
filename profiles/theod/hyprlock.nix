@@ -21,11 +21,11 @@
       dots_spacing = "0.3";
       dots_center = true;
 
-      swap_font_color = false;
-      font_color = "rgb(223, 175, 175)";
+      swap_font_color = true;
+      font_color = "rgba(255, 255, 255, 0.8)";
 
-      check_color = "rgba(198, 150, 150, 0.1)";
-      fail_color = "rgba(250, 100, 100, 0.1)";
+      check_color = "rgba(255, 255, 255, 0.2)";
+      fail_color = "rgba(250, 100, 100, 0.8)";
       inner_color = "rgba(0, 0, 0, 0)";
 
       outline_thickness = 0;
@@ -37,6 +37,7 @@
     { # Time indicator
       text = "$TIME";
       font_family = "0xProto Nerd Font";
+      color = "rgba(255, 255, 255, 0.8)";
       font_size = 100;
       position = "0,15%";
     }
