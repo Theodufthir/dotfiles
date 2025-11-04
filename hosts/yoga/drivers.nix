@@ -8,7 +8,7 @@
   ];
 
   services.fprintd = {
-    enable = true; # Not supported for now
+    enable = true;
   };
 
   hardware.sensor.iio.enable = true;

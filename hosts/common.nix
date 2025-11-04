@@ -11,7 +11,9 @@
     inherit system;
 
     specialArgs = {
-      hm-host-config = if !hasHomeManager then {} else import (./. + "/${folder}/home-manager.nix");
+      self = self;
+      hm-host-overlay = if !hasHomeManager then {} else
+        import (./. + "/${folder}/home-manager.nix");
     } // (if !useUnstable then {} else {
       pkgs-stable-25-05 = import nixpkgs {
         inherit system overlays;

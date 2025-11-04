@@ -1,11 +1,11 @@
-{ pkgs, astal-bar, ... }:
-{
+{ pkgs, astal-bar, ... }@args: hm-host-overlay:
+hm-host-overlay args {
   imports = [ astal-bar ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-    inherit (import ./hyprland.nix) settings;
+    settings = import ./hyprland.nix;
   };
 
   programs.hyprlock = {
@@ -28,11 +28,6 @@
     playerctl
     jq
     wofi
-    jetbrains.pycharm-professional
-    jetbrains.phpstorm
-    jetbrains.webstorm
-    jetbrains.rider
-    jetbrains.clion
     wireshark
     grimblast
     satty
@@ -41,7 +36,13 @@
     sassc
     ardour
     godot-mono
-  ];
+  ] ++ (with jetbrains; [
+    pycharm-professional
+    phpstorm
+    webstorm
+    rider
+    clion
+  ]);
 
   fonts.fontconfig.enable = true;
 
@@ -64,36 +65,14 @@
 
   programs.neovim = {
     enable = true;
+    inherit (import ./neovim.nix) extraConfig;
     vimAlias = true;
-    
-    extraConfig = ''
-set number
-colorscheme slate
-
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set smartindent
-
-nnoremap <A-Left> :tabprevious<CR>
-nnoremap <A-Right> :tabnext<CR>
-'';
     defaultEditor = true;
   };
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    
-    shellAliases = {
-      edit-config-nixos = "(cd /etc/nixos && sudo vim .)";
-      rebuild-nixos = "sudo nixos-rebuild switch";
-      update-nixos = "(cd /etc/nixos && sudo nix flake update)";
-      list-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --list-generations"; 
-      delete-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
-      delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
-      clean-tmp-edit = ''find . -name '*~' -exec rm -rfi {} \;'';
-    };
   };
 
   programs.direnv = {
@@ -111,7 +90,12 @@ nnoremap <A-Right> :tabnext<CR>
     settings.main.font = "monospace:size=11,0xproto";
   };
 
-  systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs "eDP-1";
+  home.shellAliases = {
+    list-generations = "nixos-rebuild list-generations";
+    delete-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
+    delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
+    clean-tmp-edit = ''find . -name '*~' -exec rm -rfi {} \;'';
+  };
 
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";

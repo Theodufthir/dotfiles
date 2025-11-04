@@ -1,6 +1,6 @@
-{ home-manager, pkgs, hm-host-config ? {}, ... }@self: {
+{ home-manager, pkgs, hm-host-overlay ? (args: hm-config: hm-config), ... }@args: {
   home-manager.users = {
-    theod = pkgs.lib.recursiveUpdate (import ./theod/home-manager.nix self) hm-host-config;
+    theod = import ./theod/home-manager.nix args hm-host-overlay;
   };
 
   users.groups.usb = {};

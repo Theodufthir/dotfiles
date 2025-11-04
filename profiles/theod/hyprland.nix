@@ -4,270 +4,268 @@ let
   violet = "9966dd";
   light-gray = "b0b4bc";
   set_opacity = color: opacity: "rgba(${color}${opacity})";
-in {
-  settings = rec {
-    "$orange" = "rgb(${orange})";
-    "$pink" = "rgb(${pink})";
-    "$violet" = "rgb(${violet})";
-    "$light-gray" = "rgb(${light-gray})";
-    "$mod" = "SUPER";
-    "$super_press_delay" = 180; # in milliseconds
+in rec {
+  "$orange" = "rgb(${orange})";
+  "$pink" = "rgb(${pink})";
+  "$violet" = "rgb(${violet})";
+  "$light-gray" = "rgb(${light-gray})";
+  "$mod" = "SUPER";
+  "$super_press_delay" = 180; # in milliseconds
 
-    debug = {
-      #damage_tracking = 0; # Only actiate if shader needs it
-    };
+  debug = {
+    #damage_tracking = 0; # Only actiate if shader needs it
+  };
+  
+  monitor = [
+    "desc:Samsung Display Corp. 0x417A,preferred,auto-right,2"
+    "desc:AOC Q24G2 ZQVQ3HA005748,preferred,auto,1.25"
+    "desc:Philips Consumer Electronics Company Philips 236VL UHB1151013906,preferred,auto-left,1"
+    "desc:Samsung Electric Company U32J59x HNMW800784,preferred,auto-left,1.5"
+    "desc:Samsung Electric Company U32J59x HNMW800791,preferred,auto-right,1.5"
+    "desc:Invalid Vendor Codename - RTK RTK QHD HDR demoset-1,preferred,auto-left,1.6"
+    "desc:LG Electronics LG TV SSCR2 0x01010101,preferred,auto-up,3"
+    ",preferred,auto,auto"
+  ];
+
+  windowrulev2 = [
+    "opacity 0.9 0.7 1, class:(foot)"
+    "noborder,class:(jetbrains-.*),floating:1"
+    "stayfocused,class:(jetbrains-.*),floating:1"
+    "nofocus,class:(jetbrains-.*),title:(win.*),floating:1"
+    #"suppressevent maximize, class:.*"
+  ];
+
+  layerrule = [
+    "animation slide, (.*)"
+  ];
+
+  exec-once = [
+    "astal-bar &> /tmp/ui-astal-bar_logs"
+    "brightnessctl -r"
+    "iio-hyprland" #tofix
+  ];
+
+  # Some default env vars.
+  env = [
+    "XCURSOR_SIZE,24"
+    "HYPRCURSOR_SIZE,24"
+  ];
+
+  # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
+  input = {
+    kb_layout = "fr";
+    follow_mouse = 1;
+    sensitivity = 0;
+  };
+
+  binds = {
+    hide_special_on_workspace_change = true;
+  };
+
+  general = {
+    gaps_in = 5;
+    gaps_out = 10;
+    border_size = 1;
+    "col.active_border" = "$violet";
+    "col.inactive_border" = set_opacity violet "40";
+
+    layout = "dwindle";
     
-    monitor = [
-      "desc:Samsung Display Corp. 0x417A,preferred,auto-right,2"
-      "desc:AOC Q24G2 ZQVQ3HA005748,preferred,auto,1.25"
-      "desc:Philips Consumer Electronics Company Philips 236VL UHB1151013906,preferred,auto-left,1"
-      "desc:Samsung Electric Company U32J59x HNMW800784,preferred,auto-left,1.5"
-      "desc:Samsung Electric Company U32J59x HNMW800791,preferred,auto-right,1.5"
-      "desc:Invalid Vendor Codename - RTK RTK QHD HDR demoset-1,preferred,auto-left,1.6"
-      "desc:LG Electronics LG TV SSCR2 0x01010101,preferred,auto-up,3"
-      ",preferred,auto,auto"
-    ];
+    allow_tearing = false;
 
-    windowrulev2 = [
-      "opacity 0.9 0.7 1, class:(foot)"
-      "noborder,class:(jetbrains-.*),floating:1"
-      "stayfocused,class:(jetbrains-.*),floating:1"
-      "nofocus,class:(jetbrains-.*),title:(win.*),floating:1"
-      #"suppressevent maximize, class:.*"
-    ];
-
-    layerrule = [
-      "animation slide, (.*)"
-    ];
-
-    exec-once = [
-      "astal-bar &> /tmp/ui-astal-bar_logs"
-      "brightnessctl -r"
-      "iio-hyprland" #tofix
-    ];
-
-    # Some default env vars.
-    env = [
-      "XCURSOR_SIZE,24"
-      "HYPRCURSOR_SIZE,24"
-    ];
-
-    # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
-    input = {
-      kb_layout = "fr";
-      follow_mouse = 1;
-      sensitivity = 0;
+    snap = {
+      enabled = true;
+      respect_gaps = true;
     };
+  };
 
-    binds = {
-      hide_special_on_workspace_change = true;
-    };
+  xwayland = {
+    use_nearest_neighbor = false;
+    force_zero_scaling = true;
+  };
 
-    general = {
-      gaps_in = 5;
-      gaps_out = 10;
-      border_size = 1;
-      "col.active_border" = "$violet";
-      "col.inactive_border" = set_opacity violet "40";
+  decoration = {
+    rounding = 15;
 
-      layout = "dwindle";
-      
-      allow_tearing = false;
-
-      snap = {
-        enabled = true;
-        respect_gaps = true;
-      };
-    };
-
-    xwayland = {
-      use_nearest_neighbor = false;
-      force_zero_scaling = true;
-    };
-
-    decoration = {
-      rounding = 15;
-
-      blur = {
-          enabled = false;
-          size = 8;
-          passes = 2;
-      };
-
-      shadow = {
+    blur = {
         enabled = false;
-      };
+        size = 8;
+        passes = 2;
     };
 
-    animations = {
-      enabled = "yes";
-
-      # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-      bezier = [
-        "linear, 0, 0, 1, 1"
-        "fading, 0.19, 1, 0.22, 1"
-        "bounce_out, 0.175, 0.885, 0.32, 1.275"
-        "boing, 0.3, 2.5, 0.44, 0.16"
-        "fade_out, 0.8, 0.2, 0.9, 0.4"
-      ];
-
-      animation = [
-        "windows, 1, 7, fading, slide"
-        "fade, 1, 7, fading"
-        "fadeIn, 0"
-        "fadeOut, 1, 4, fade_out"
-        "workspaces, 1, 5, default, slidefade"
-      ];
+    shadow = {
+      enabled = false;
     };
+  };
 
-    dwindle = {
-      pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mod + P in the keybinds section below
-      preserve_split = "yes"; # you probably want this
-    };
+  animations = {
+    enabled = "yes";
 
-    master = {
-      new_status = true;
-    };
-
-    gestures = {
-      workspace_swipe_touch = "on";
-      workspace_swipe_forever = true;
-      workspace_swipe_direction_lock = false;
-      workspace_swipe_min_speed_to_force = 10;
-    };
-
-    misc = {
-      force_default_wallpaper = "-1";
-      focus_on_activate = true;
-      new_window_takes_over_fullscreen = 2;
-      disable_autoreload = true; # I have to rebuild anyways
-      animate_manual_resizes = true;
-    };
-
-    group = {
-      "col.border_active" = "$orange";
-      "col.border_inactive" = set_opacity orange "40";
-
-      groupbar = {
-        render_titles = false;
-        gradients = false;
-        "col.active" = "$orange";
-        "col.inactive" = set_opacity orange "40";
-        indicator_height = 4;
-        gaps_out = 4;
-        gaps_in = 6;
-        rounding = 4;
-        round_only_edges = false;
-      };
-    };
-
-    gesture = [
-      "3, horizontal, workspace"
+    # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+    bezier = [
+      "linear, 0, 0, 1, 1"
+      "fading, 0.19, 1, 0.22, 1"
+      "bounce_out, 0.175, 0.885, 0.32, 1.275"
+      "boing, 0.3, 2.5, 0.44, 0.16"
+      "fade_out, 0.8, 0.2, 0.9, 0.4"
     ];
 
-    bind = [
-      # Clients
-      "$mod, Return, exec, foot"
-      "$mod SHIFT, Return, exec, [float] foot"
-      "$mod, Q, killactive,"
-      
-      '', $mod_L, exec, echo "$(($(date +%s%3N) + $super_press_delay))" > /tmp/hyprland_super_timestamp''
-      ''$mod SHIFT, S, exec, mkdir ~/screenshots; path=~/screenshots/"$(date '+%s').png"; grimblast copysave output "$path" && satty -f "$path" --fullscreen''
-      
-      "$mod SHIFT, L, exec, loginctl lock-session"
-      
-      # Disposition
-      "$mod, V, togglefloating,"
-      "$mod, P, pseudo,"
-      "$mod, J, togglesplit,"
-      "$mod, F, fullscreen,"
-      "$mod SHIFT, F, fullscreenstate, -1 3"
-      "$mod CTRL, F, fullscreen, 1"
-      "$mod SHIFT, SPACE, centerwindow,"
-      "$mod SHIFT, V, focuswindow, floating" 
-      "$mod SHIFT, TAB, changegroupactive, back"
-      "$mod, TAB, changegroupactive, forward"
-      "$mod, G, togglegroup"
-      "$mod SHIFT, G, denywindowfromgroup"
-
-      # Workspaces
-      "$mod, ESCAPE, togglespecialworkspace, magic"
-      "$mod SHIFT, ESCAPE, movetoworkspacesilent, special:magic"
-      "$mod CTRL, ESCAPE, movetoworkspace, special:magic"
-      "$mod, mouse_down, workspace, e+1"
-      "$mod, mouse_up, workspace, e-1"
-    ] ++ (
-      builtins.concatLists (
-        map (
-          n: let code = "code:${toString (n + 10)}"; number = toString (n + 1); in [
-            "$mod, ${code}, workspace, ${number}"
-            "$mod SHIFT, ${code}, movetoworkspacesilent, ${number}"
-            "$mod ALT, ${code}, focusworkspaceoncurrentmonitor, ${number}"
-            "$mod CTRL, ${code}, movetoworkspace, ${number}"
-          ]
-        )
-        (builtins.genList (x: x) 9)
-      )
-    ) ++ (
-      builtins.concatLists (
-        map (
-          dir: let letter = (builtins.substring 0 1 dir); in [
-            "$mod, ${dir}, movefocus, ${letter}"
-            "$mod SHIFT, ${dir}, movewindoworgroup, ${letter}"
-            "$mod CTRL, ${dir}, swapwindow, ${letter}"
-          ]
-        )
-        [ "left" "right" "up" "down" ]
-      )
-    );
-
-
-    # Release binds
-    bindr = [
-      ''$mod, $mod_L, execr, [ "$(date +%s%3N)" -ge "$(cat /tmp/hyprland_super_timestamp)" ] || pkill wofi || wofi --show drun''
-    ];
-
-    # Repeated binds
-    binde = [
-      "$mod ALT, right, resizeactive, 10 0"
-      "$mod ALT, left, resizeactive, -10 0"
-      "$mod ALT, up, resizeactive, 0 -10"
-      "$mod ALT, down, resizeactive, 0 10"
-    ];
-
-    # Repeated+locked binds
-    bindel = [
-      # Brightness
-      ", XF86MonBrightnessUp, exec, brightnessctl --exponent=5 -s s +5%"
-      ", XF86MonBrightnessDown, exec, brightnessctl --exponent=5 -sn s 5%-"
-
-      # Volume
-      ", XF86AudioRaiseVolume, exec, amixer sset Master 2%+ "
-      ", XF86AudioLowerVolume, exec, amixer sset Master 2%-"
-    ];
-
-    # Locked binds
-    bindl = [ 
-      # Mute
-      ", XF86AudioMicMute, exec, amixer --default-source -m"
-      ", XF86AudioMute, exec, amixer sset Master toggle"
-      
-      # Player controls
-      ", XF86AudioPlay, exec, playerctl play"
-      ", XF86AudioPause, exec, playerctl pause"
-      ", XF86AudioNext, exec, playerctl next"
-      ", XF86AudioPrev, exec, playerctl previous"
-      
-      # Power/session controls
-      "$mod SHIFT, E, exit,"
-      "$mod SHIFT, P, exec, systemctl suspend-then-hibernate"
-      "$mod CTRL, P, exec, systemctl hibernate"
-    ];
-
-    # Mouse binds
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
+    animation = [
+      "windows, 1, 7, fading, slide"
+      "fade, 1, 7, fading"
+      "fadeIn, 0"
+      "fadeOut, 1, 4, fade_out"
+      "workspaces, 1, 5, default, slidefade"
     ];
   };
+
+  dwindle = {
+    pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mod + P in the keybinds section below
+    preserve_split = "yes"; # you probably want this
+  };
+
+  master = {
+    new_status = true;
+  };
+
+  gestures = {
+    workspace_swipe_touch = "on";
+    workspace_swipe_forever = true;
+    workspace_swipe_direction_lock = false;
+    workspace_swipe_min_speed_to_force = 10;
+  };
+
+  misc = {
+    force_default_wallpaper = "-1";
+    focus_on_activate = true;
+    new_window_takes_over_fullscreen = 2;
+    disable_autoreload = true; # I have to rebuild anyways
+    animate_manual_resizes = true;
+  };
+
+  group = {
+    "col.border_active" = "$orange";
+    "col.border_inactive" = set_opacity orange "40";
+
+    groupbar = {
+      render_titles = false;
+      gradients = false;
+      "col.active" = "$orange";
+      "col.inactive" = set_opacity orange "40";
+      indicator_height = 4;
+      gaps_out = 4;
+      gaps_in = 6;
+      rounding = 4;
+      round_only_edges = false;
+    };
+  };
+
+  gesture = [
+    "3, horizontal, workspace"
+  ];
+
+  bind = [
+    # Clients
+    "$mod, Return, exec, foot"
+    "$mod SHIFT, Return, exec, [float] foot"
+    "$mod, Q, killactive,"
+    
+    '', $mod_L, exec, echo "$(($(date +%s%3N) + $super_press_delay))" > /tmp/hyprland_super_timestamp''
+    ''$mod SHIFT, S, exec, mkdir ~/screenshots; path=~/screenshots/"$(date '+%s').png"; grimblast copysave output "$path" && satty -f "$path" --fullscreen''
+    
+    "$mod SHIFT, L, exec, loginctl lock-session"
+    
+    # Disposition
+    "$mod, V, togglefloating,"
+    "$mod, P, pseudo,"
+    "$mod, J, togglesplit,"
+    "$mod, F, fullscreen,"
+    "$mod SHIFT, F, fullscreenstate, -1 3"
+    "$mod CTRL, F, fullscreen, 1"
+    "$mod SHIFT, SPACE, centerwindow,"
+    "$mod SHIFT, V, focuswindow, floating" 
+    "$mod SHIFT, TAB, changegroupactive, prev"
+    "$mod, TAB, changegroupactive, next"
+    "$mod, G, togglegroup"
+    "$mod SHIFT, G, denywindowfromgroup"
+
+    # Workspaces
+    "$mod, ESCAPE, togglespecialworkspace, magic"
+    "$mod SHIFT, ESCAPE, movetoworkspacesilent, special:magic"
+    "$mod CTRL, ESCAPE, movetoworkspace, special:magic"
+    "$mod, mouse_down, workspace, e+1"
+    "$mod, mouse_up, workspace, e-1"
+  ] ++ (
+    builtins.concatLists (
+      map (
+        n: let code = "code:${toString (n + 10)}"; number = toString (n + 1); in [
+          "$mod, ${code}, workspace, ${number}"
+          "$mod SHIFT, ${code}, movetoworkspacesilent, ${number}"
+          "$mod ALT, ${code}, focusworkspaceoncurrentmonitor, ${number}"
+          "$mod CTRL, ${code}, movetoworkspace, ${number}"
+        ]
+      )
+      (builtins.genList (x: x) 9)
+    )
+  ) ++ (
+    builtins.concatLists (
+      map (
+        dir: let letter = (builtins.substring 0 1 dir); in [
+          "$mod, ${dir}, movefocus, ${letter}"
+          "$mod SHIFT, ${dir}, movewindoworgroup, ${letter}"
+          "$mod CTRL, ${dir}, swapwindow, ${letter}"
+        ]
+      )
+      [ "left" "right" "up" "down" ]
+    )
+  );
+
+
+  # Release binds
+  bindr = [
+    ''$mod, $mod_L, execr, [ "$(date +%s%3N)" -ge "$(cat /tmp/hyprland_super_timestamp)" ] || pkill wofi || wofi --show drun''
+  ];
+
+  # Repeated binds
+  binde = [
+    "$mod ALT, right, resizeactive, 10 0"
+    "$mod ALT, left, resizeactive, -10 0"
+    "$mod ALT, up, resizeactive, 0 -10"
+    "$mod ALT, down, resizeactive, 0 10"
+  ];
+
+  # Repeated+locked binds
+  bindel = [
+    # Brightness
+    ", XF86MonBrightnessUp, exec, brightnessctl --exponent=5 -s s +5%"
+    ", XF86MonBrightnessDown, exec, brightnessctl --exponent=5 -sn s 5%-"
+
+    # Volume
+    ", XF86AudioRaiseVolume, exec, amixer sset Master 2%+ "
+    ", XF86AudioLowerVolume, exec, amixer sset Master 2%-"
+  ];
+
+  # Locked binds
+  bindl = [ 
+    # Mute
+    ", XF86AudioMicMute, exec, amixer --default-source -m"
+    ", XF86AudioMute, exec, amixer sset Master toggle"
+    
+    # Player controls
+    ", XF86AudioPlay, exec, playerctl play"
+    ", XF86AudioPause, exec, playerctl pause"
+    ", XF86AudioNext, exec, playerctl next"
+    ", XF86AudioPrev, exec, playerctl previous"
+    
+    # Power/session controls
+    "$mod SHIFT, E, exit,"
+    "$mod SHIFT, P, exec, systemctl suspend-then-hibernate"
+    "$mod CTRL, P, exec, systemctl hibernate"
+  ];
+
+  # Mouse binds
+  bindm = [
+    "$mod, mouse:272, movewindow"
+    "$mod, mouse:273, resizewindow"
+  ];
 }

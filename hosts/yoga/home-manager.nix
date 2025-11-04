@@ -1,4 +1,5 @@
-{
+{ self, pkgs, ... }@args: hm-config:
+pkgs.lib.recursiveUpdate hm-config rec {
   wayland.windowManager.hyprland.settings = {
     monitor = [
       "desc:Samsung Display Corp. 0x417A,preferred,auto,2"
@@ -18,4 +19,6 @@
   };
 
   programs.hyprlock.settings.auth.fingerprint.enabled = true;
+
+  systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs "eDP-1";
 }
