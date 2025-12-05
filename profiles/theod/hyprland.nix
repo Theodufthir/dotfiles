@@ -177,17 +177,22 @@ in rec {
     
     # Disposition
     "$mod, V, togglefloating,"
-    "$mod, P, pseudo,"
-    "$mod, J, togglesplit,"
+    "$mod SHIFT, V, focuswindow, floating"
+    "$mod CTRL, V, pin,"
+
     "$mod, F, fullscreen,"
     "$mod SHIFT, F, fullscreenstate, -1 3"
     "$mod CTRL, F, fullscreen, 1"
-    "$mod SHIFT, SPACE, centerwindow,"
-    "$mod SHIFT, V, focuswindow, floating" 
-    "$mod SHIFT, TAB, changegroupactive, prev"
+
     "$mod, TAB, changegroupactive, next"
+    "$mod SHIFT, TAB, changegroupactive, prev"
+
     "$mod, G, togglegroup"
     "$mod SHIFT, G, denywindowfromgroup"
+
+    "$mod SHIFT, SPACE, centerwindow,"
+    "$mod, P, pseudo,"
+    "$mod, J, togglesplit,"
 
     # Workspaces
     "$mod, ESCAPE, togglespecialworkspace, magic"

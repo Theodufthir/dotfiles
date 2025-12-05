@@ -18,6 +18,10 @@ pkgs.lib.recursiveUpdate hm-config rec {
     };
   };
 
+  home.packages = hm-config.home.packages ++ (with pkgs; [
+    iio-hyprland
+  ]);
+
   programs.hyprlock.settings = {
     auth.fingerprint.enabled = true;
     label = hm-config.programs.hyprlock.settings.label ++ [{

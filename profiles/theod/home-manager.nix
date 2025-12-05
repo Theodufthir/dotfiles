@@ -21,7 +21,6 @@ hm-host-overlay args {
   home.packages = with pkgs; [
     via
     btop
-    iio-hyprland #tofix
     foot
     brightnessctl
     webcord-vencord
