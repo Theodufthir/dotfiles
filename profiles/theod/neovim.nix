@@ -1,6 +1,7 @@
 {
   extraConfig = ''
 set number
+set relativenumber
 colorscheme slate
 
 set tabstop=2

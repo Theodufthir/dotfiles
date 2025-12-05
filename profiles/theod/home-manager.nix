@@ -78,6 +78,11 @@ hm-host-overlay args {
     enable = true;
   };
 
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
   programs.starship = {
     enable = true;
     enableBashIntegration = true;

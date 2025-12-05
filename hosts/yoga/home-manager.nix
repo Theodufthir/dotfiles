@@ -34,5 +34,9 @@ pkgs.lib.recursiveUpdate hm-config rec {
     }];
   };
 
+  home.shellAliases = {
+    nixos-switch-flake = "sudo nixos-rebuild switch --flake .#yoga";
+  };
+
   systemd.user.services.auto-rotate = import ./auto-rotate.service.nix pkgs "eDP-1";
 }
