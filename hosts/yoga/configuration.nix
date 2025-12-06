@@ -8,7 +8,7 @@
 
   # Networking
   networking.networkmanager.enable = true;
-  networking.hostName = "nixos";
+  networking.hostName = "yogix";
 
   services.automatic-timezoned.enable = true;
 
@@ -112,8 +112,8 @@
     usbmon.enable = true;
   };
 
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   # Firewall options .allowedTCP/UDP or .enable
   # networking.firewall.enable = false;
