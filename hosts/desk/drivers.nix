@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.cudaSupport = false;
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable = true;

@@ -20,7 +20,6 @@ hm-host-overlay args {
 
   home.packages = with pkgs; [
     via
-    btop
     foot
     brightnessctl
     webcord-vencord
@@ -100,6 +99,8 @@ hm-host-overlay args {
     delete-generations-all = ''for gen in $(list-generations | sed -rn 's/\s*([0-9]+).*/\1/p' | head -n -1); do delete-generations $gen; done && nix-collect-garbage -d'';
     clean-tmp-edit = ''find . -name '*~' -exec rm -rfi {} \;'';
   };
+
+  programs.btop.enable = true;
 
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";

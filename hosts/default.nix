@@ -23,6 +23,11 @@ with (import ./common.nix inputs); {
     specialArgs = {
 	    astal-bar = astal-bar.homeManagerModules.default;
     };
+    overlays = [
+      (final: prev: {
+        btop = prev.btop.override { cudaSupport = true; };
+      })
+    ];
     modules = [
       ../profiles
       { programs.hyprland.enable = true; }
