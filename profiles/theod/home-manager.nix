@@ -31,7 +31,6 @@ hm-host-overlay args {
     satty
     vscode
     alsa-utils
-    sassc
     ardour
     godot-mono
   ] ++ (with jetbrains; [
