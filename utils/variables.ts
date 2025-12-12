@@ -19,6 +19,7 @@ function createMultiBinding<
 function createMultiBinding(obj: GObject | Accessor<GObject>, props: (keyof GObject)[], transform: (_: object) => any): Accessor<any> {
   if (obj instanceof GObject) {
     return createComputed(
+      // @ts-ignore
       props.map(prop => createBinding(obj, prop)),
       (...values) => transform(
         Object.fromEntries(values.map((val, idx) => [props[idx], val]))
@@ -29,10 +30,16 @@ function createMultiBinding(obj: GObject | Accessor<GObject>, props: (keyof GObj
       let unsubscribe = () => {}
 
       const attachNewDerivation = () => {
-        const multiBinding = createMultiBinding(obj.get(), props, transform)
         unsubscribe()
-        unsubscribe = multiBinding.subscribe(() => set(multiBinding.get()))
-        set(multiBinding.get())
+        const next_obj = obj.peek()
+        if (next_obj instanceof GObject) {
+          const multiBinding = createMultiBinding(obj.peek(), props, transform)
+          unsubscribe = multiBinding.subscribe(() => set(multiBinding.peek()))
+          set(multiBinding.peek())
+        } else {
+          unsubscribe = () => {}
+          set(next_obj)
+        }
       }
 
       attachNewDerivation()
@@ -45,41 +52,13 @@ function createMultiBinding(obj: GObject | Accessor<GObject>, props: (keyof GObj
 }
 
 
-function createRecBinding<
-  Result
->(obj: Accessor<Result>): Accessor<Result>
-
-function createRecBinding<
-  Object extends GObject,
-  Prop extends keyof Object,
-  Result extends Object[Prop],
->(obj: Object, prop: Prop): Accessor<Result>
-
-function createRecBinding<
-  Object extends GObject,
-  Prop_1 extends keyof Object,
-  Inter extends Object[Prop_1] & GObject,
-  Prop_2 extends keyof Object[Prop_1],
-  Result extends Inter[Prop_2],
->(obj: Object, prop_1: Prop_1, prop_2: Prop_2): Accessor<Result>
-
-function createRecBinding<
-  Object extends GObject,
-  Prop_1 extends keyof Object,
-  Inter_1 extends Object[Prop_1] & GObject,
-  Prop_2 extends keyof Object[Prop_1],
-  Inter_2 extends Inter_1[Prop_2] & GObject,
-  Prop_3 extends keyof Inter_1[Prop_2],
-  Result extends Inter_2[Prop_3],
->(obj: Object, prop_1: Prop_1, prop_2: Prop_2, prop_3: Prop_3): Accessor<Result>
-
-function createRecBinding<
+function createReBinding<
   Object extends GObject,
   Prop extends keyof Object,
   Result extends Object[Prop],
 >(obj: Accessor<Object>, prop: Prop): Accessor<Result>
 
-function createRecBinding<
+function createReBinding<
   Object extends GObject,
   Prop_1 extends keyof Object,
   Inter extends Object[Prop_1] & GObject,
@@ -87,7 +66,7 @@ function createRecBinding<
   Result extends Inter[Prop_2],
 >(obj: Accessor<Object>, prop_1: Prop_1, prop_2: Prop_2): Accessor<Result>
 
-function createRecBinding<
+function createReBinding<
   Object extends GObject,
   Prop_1 extends keyof Object,
   Inter_1 extends Object[Prop_1] & GObject,
@@ -97,13 +76,12 @@ function createRecBinding<
   Result extends Inter_2[Prop_3],
 >(obj: Accessor<Object>, prop_1: Prop_1, prop_2: Prop_2, prop_3: Prop_3): Accessor<Result>
 
-function createRecBinding(obj: GObject | Accessor<any>, ...props: string[]) {
-  let binding = obj instanceof GObject
-    ? createBinding(obj, props.shift()! as keyof GObject)
-    : obj as Accessor<any>
-  for (; props.length > 0; props.shift())
-    binding = _recBind(binding, props[0])
-  return binding
+function createReBinding(obj: Accessor<GObject>, ...props: string[]) {
+  for (; props.length > 0; props.shift()) {
+    // @ts-ignore
+    obj = _recBind(obj, props[0])
+  }
+  return obj
 }
 
 function _recBind<
@@ -112,17 +90,17 @@ function _recBind<
   Value extends Object[Prop]
 >(accessor: Accessor<Object>, property: Prop): Accessor<Value> {
   const getSubscribeFct = (binding: Accessor<Value>) => (callback: (_: Value) => void) => {
-    let gobject: Object | undefined = accessor.get()
+    let gobject: Object | undefined = accessor.peek()
     const signal = `notify::${property as string}`
-    callback(binding.get())
-    let id: number | undefined = gobject?.connect(signal, () => { callback(binding.get()) })
+    callback(binding.peek())
+    let id: number | undefined = gobject?.connect(signal, () => { callback(binding.peek()) })
 
     const unsubscribe = accessor.subscribe(() => {
-      const newGObject = accessor.get()
+      const newGObject = accessor.peek()
       gobject?.disconnect(id!)
       gobject = newGObject
-      callback(binding.get())
-      id = gobject?.connect(signal, () => { callback(binding.get()) })
+      callback(binding.peek())
+      id = gobject?.connect(signal, () => { callback(binding.peek()) })
     })
 
     return () => {
@@ -157,7 +135,6 @@ function createBindingOrApply<
 
 export {
   createMultiBinding,
-  createRecBinding,
-  //createMultiTrigger,
+  createReBinding,
   createBindingOrApply
 }

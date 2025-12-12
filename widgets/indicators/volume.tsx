@@ -1,7 +1,8 @@
 import WpSvc from "gi://AstalWp";
 import Astal from "gi://Astal?version=4.0";
 import TablerIcon from "../common/components/tabler_icon";
-import { createMultiBinding, createRecBinding } from "../../utils/variables";
+import { createBinding } from "gnim";
+import { createMultiBinding } from "../../utils/variables";
 import EphemeralWindow, { EphemeralWindowProps } from "../common/windows/ephemeral";
 import { getAudioEndpointIcon, getAudioEndpointVolumeIcon } from "../../utils/audio";
 
@@ -13,7 +14,11 @@ const VolumeIndicator = (props: EphemeralWindowProps) => {
 
   const volumeIcon = createMultiBinding(audio.defaultSpeaker, ["mute", "volume"], getAudioEndpointVolumeIcon)
   const deviceIcon = createMultiBinding(audio.defaultSpeaker, ["icon"], getAudioEndpointIcon)
-  const popupTrigger = createMultiBinding(audio.defaultSpeaker, ["id", "mute", "volume"], () => undefined)
+  const popupTrigger = createMultiBinding(
+    audio.defaultSpeaker,
+    ["id", "mute", "volume"],
+    ({ id, volume, mute }) => `${id}${volume}${mute}` // state
+  )
 
   return <EphemeralWindow
     name="VolumeIndicator"
@@ -23,12 +28,12 @@ const VolumeIndicator = (props: EphemeralWindowProps) => {
     margin_bottom={100}
     {...props}>
     <box class="base floating-indicator volume" spacing={3}>
-      <TablerIcon icon={createRecBinding(volumeIcon)}/>
+      <TablerIcon icon={volumeIcon}/>
       <slider class="bar-metric"
               drawValue={false}
-              value={createRecBinding(audio, "defaultSpeaker", "volume")}/>
+              value={createBinding(audio, "defaultSpeaker", "volume")}/>
       <TablerIcon icon="minus-vertical" css="margin-right: -4px"/>
-      <TablerIcon icon={createRecBinding(deviceIcon)}/>
+      <TablerIcon icon={deviceIcon}/>
     </box>
   </EphemeralWindow>
 }

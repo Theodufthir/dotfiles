@@ -13,7 +13,7 @@ import NetworkPopup from "./popups/network";
 import BluetoothPopup from "./popups/bluetooth";
 import { suspend } from "../../utils/power";
 import { createPoll } from "ags/time";
-import { createMultiBinding, createRecBinding } from "../../utils/variables";
+import { createMultiBinding } from "../../utils/variables";
 import { toggleOnCurrentMonitor } from "../../utils/monitors";
 import TablerIcon, { TablerIconName } from "../common/components/tabler_icon";
 import { createBinding, createComputed, createState } from "gnim";
@@ -49,9 +49,9 @@ const Bluetooth = () => {
 const Network = () => {
   const icon = createComputed([
     createBinding(network, "primary"),
-    createRecBinding(network, "wifi", "internet"),
-    createRecBinding(network, "wifi", "strength"),
-    createRecBinding(network, "wifi", "enabled")
+    createBinding(network, "wifi", "internet"),
+    createBinding(network, "wifi", "strength"),
+    createBinding(network, "wifi", "enabled")
   ], (primary, status, strength, enabled) => {
     if (primary === Net.Primary.WIRED) {
       return "network"

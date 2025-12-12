@@ -61,7 +61,7 @@ function FilteredSections<T extends GObject, S extends (keyof T)[]>(
         const gobject = <box $={self => widget = self}>{template(obj)}</box>
         findMatchingSection(obj)?.append(widget!)
         const unsubscribe = trigger.subscribe(() => {
-          const objNow = trigger.get()
+          const objNow = trigger.peek()
           const newParent = findMatchingSection(objNow) ?? null
           const oldParent = widget.parent as Gtk.Box
           if (oldParent === newParent) return
@@ -87,8 +87,8 @@ function FilteredSections<T extends GObject, S extends (keyof T)[]>(
     computeContainerVisibility()
   }
 
-  handleObjs(source.get())
-  const unsubscribe = source.subscribe(() => handleObjs(source.get()))
+  handleObjs(source.peek())
+  const unsubscribe = source.subscribe(() => handleObjs(source.peek()))
 
   return <box
     {...props}
