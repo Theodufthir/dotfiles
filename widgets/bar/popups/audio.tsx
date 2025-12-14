@@ -1,5 +1,6 @@
 import Wp from "gi://AstalWp";
 import Gtk from "gi://Gtk";
+import Pango from "gi://Pango";
 import Astal from "gi://Astal?version=4.0";
 import Button from "../../common/components/button";
 import TablerIcon from "../../common/components/tabler_icon";
@@ -22,7 +23,9 @@ const Output = (output: Wp.Endpoint) =>
             onPrimaryClick={_ => output.set_is_default(true)}>
       <label hexpand halign={Gtk.Align.END}
              tooltipText={output.description}
-             label={output.description}/>
+             label={output.description}
+             ellipsize={Pango.EllipsizeMode.MIDDLE}
+             maxWidthChars={25}/>
     </Button>
   </box>
 

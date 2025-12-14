@@ -1,4 +1,5 @@
 import Gtk from "gi://Gtk";
+import Pango from "gi://Pango";
 import Astal from "gi://Astal?version=4.0";
 import Button from "../../common/components/button";
 import Network from "gi://AstalNetwork";
@@ -35,7 +36,9 @@ const Wifi = (wifi: Network.AccessPoint) => {//{ wifi }: { wifi: Network.AccessP
             onPrimaryClick={toggleConnection}>
       <label hexpand halign={Gtk.Align.END}
              tooltipText={wifi.ssid ?? wifi.bssid}
-             label={wifi.ssid ?? wifi.bssid}/>
+             label={wifi.ssid ?? wifi.bssid}
+             ellipsize={Pango.EllipsizeMode.END}
+             maxWidthChars={25}/>
     </Button>
   </box>
 }

@@ -1,4 +1,5 @@
 import Mpris from "gi://AstalMpris";
+import Pango from "gi://Pango";
 import Button from "../common/components/button";
 import MediaPopup from "./popups/media";
 import { createBinding } from "gnim";
@@ -17,7 +18,11 @@ const Media = () => {
     sensitive={hasMedia}
     onPrimaryClick={() => toggleOnCurrentMonitor(MediaPopup)}
     onSecondaryClick={() => mainPlayer.peek().play_pause()}>
-      <label label={text.as(t => t ?? "No media")}/>
+      <label label={text.as(t => t ?? "No media")}
+             hasTooltip={hasMedia}
+             tooltipText={text.as(t => t ?? "Unknown")}
+             ellipsize={Pango.EllipsizeMode.MIDDLE}
+             maxWidthChars={50}/>
   </Button>
 }
 

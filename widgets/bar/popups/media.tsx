@@ -1,6 +1,7 @@
 import Gtk from "gi://Gtk";
 import Astal from "gi://Astal?version=4.0";
 import Mpris from "gi://AstalMpris";
+import Pango from "gi://Pango";
 import Button from "../../common/components/button";
 import { createPoll } from "ags/time";
 import { Accessor, createBinding, For, With } from "gnim";
@@ -12,9 +13,18 @@ const mpris = Mpris.get_default()
 
 const Infos = (player: Mpris.Player) =>
   <box orientation={Gtk.Orientation.VERTICAL}>
-    <label label={createBinding(player, "title")}/>
-    <label label={createBinding(player, "artist")}/>
-    <label label={createBinding(player, "album")}/>
+    <label label={createBinding(player, "title")}
+           tooltipText={createBinding(player, "title")}
+           ellipsize={Pango.EllipsizeMode.END}
+           maxWidthChars={35}/>
+    <label label={createBinding(player, "artist")}
+           tooltipText={createBinding(player, "artist")}
+           ellipsize={Pango.EllipsizeMode.END}
+           maxWidthChars={35}/>
+    <label label={createBinding(player, "album")}
+           tooltipText={createBinding(player, "album")}
+           ellipsize={Pango.EllipsizeMode.END}
+           maxWidthChars={35}/>
   </box>
 
 

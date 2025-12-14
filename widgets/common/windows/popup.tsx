@@ -9,7 +9,7 @@ export interface PopupWindowProps extends BaseWindowProps {}
 const hyprland = Hyprland.get_default()
 const XDG_RUNTIME_DIR = GLib.getenv("XDG_RUNTIME_DIR")
 
-const PopupWindow = ({ name, $, visible = false, ...props}: PopupWindowProps) => {
+const PopupWindow = ({ name, $, visible = false, resizable = false, ...props}: PopupWindowProps) => {
   const bindCommand = `nc -U ${XDG_RUNTIME_DIR}/astal/${App.instanceName}.sock <<< $'hide_popup ${name}\\x04'`
 
   const motionHandler = new Gtk.EventControllerMotion()
@@ -20,6 +20,7 @@ const PopupWindow = ({ name, $, visible = false, ...props}: PopupWindowProps) =>
   return <BaseWindow
     name={name}
     visible={visible}
+    resizable={resizable}
     $={self => {
       self.add_controller(motionHandler)
       self.connect("hide", () => {
