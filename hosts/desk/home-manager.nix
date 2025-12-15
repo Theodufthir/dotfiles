@@ -1,4 +1,5 @@
-{
+{ self, pkgs, ... }@args: hm-config:
+pkgs.lib.recursiveUpdate hm-config rec {
   wayland.windowManager.hyprland.settings = {
     cursor.no_hardware_cursors = 1;
     monitor = [
