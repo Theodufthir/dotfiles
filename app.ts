@@ -1,5 +1,6 @@
 import App from "ags/gtk4/app";
 import Bar from "./widgets/bar";
+import Launcher from "./widgets/launcher";
 import AudioPopup from "./widgets/bar/popups/audio";
 import PowerPopup from "./widgets/bar/popups/power";
 import MediaPopup from "./widgets/bar/popups/media";
@@ -10,6 +11,7 @@ import BrightnessIndicator from "./widgets/indicators/brightness";
 import { reloadCss } from "./utils/style";
 import { monitorFile } from "ags/file";
 import { registerMultiWorkspace } from "./utils/monitors";
+import { registerMultiWorkspace, toggleOnCurrentMonitor } from "./utils/monitors";
 
 function start() {
   App.add_icons(`${SRC}/assets/icons`)
@@ -18,6 +20,7 @@ function start() {
   reloadCss()
 
   void [
+    Launcher,
     Bar,
     MediaPopup,
     AudioPopup, BluetoothPopup, NetworkPopup, PowerPopup,
@@ -38,6 +41,7 @@ App.start({
       case "quit":
       case "stop":
       case "toggle":
+      case "launcher":
         console.log(`Instance not running: "${command}" unavailable`)
         App.quit()
         break
@@ -59,6 +63,9 @@ App.start({
         if (argv.length < 2 || !App.get_window(argv[1]))
           return res("Error: window not found")
         App.toggle_window(argv[1])
+        break
+      case "launcher":
+        toggleOnCurrentMonitor(Launcher)
         break
       default:
         res(`Unknown command: "${command}"`)

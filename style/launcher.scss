@@ -1,0 +1,39 @@
+.launcher {
+  font-size: 16px;
+  padding: 6px;
+
+  separator {
+    margin: 5px -10px;
+  }
+}
+
+.launcher scrolledwindow {
+  min-height: 300px;
+  min-width: 500px;
+
+
+}
+
+entry.search {
+  placeholder {
+    color: darken($font-color, 25);
+    font-style: italic;
+  }
+}
+
+list.apps {
+  row image {
+    min-height: 20px;
+    min-width: 20px;
+    margin-right: 2px;
+  }
+
+  row:not(:last-child) {
+    margin-bottom: 1px
+  }
+
+  row:selected {
+    border-radius: 2px;
+    background: $backdrop-color;
+  }
+}

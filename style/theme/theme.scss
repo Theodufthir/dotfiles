@@ -59,3 +59,9 @@ scale trough {
 scale.highlightable trough highlight:hover {
   background-color: $accent-color;
 }
+
+separator {
+  min-height: 1px;
+  min-width: 1px;
+  background: darken($font-color, 25);
+}
