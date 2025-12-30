@@ -41,7 +41,7 @@
         entry = "app.ts";
 
         nativeBuildInputs = with pkgs; [
-          wrapGAppsHook
+          wrapGAppsHook4
           gobject-introspection
           ags.packages.${system}.default
         ];
