@@ -96,7 +96,7 @@ const Brightness = () => {
         drawValue={false}
         class="slider highlightable"
         value={createBinding(brightness, "screen")}
-        // TODO onChange
+        onChangeValue={(self, scroll, val) => { brightness!.screen = val }}
     />
   </HoverRevealer>
 }
@@ -125,7 +125,7 @@ const Volume = () => {
       drawValue={false}
       class="slider highlightable"
       value={createBinding(audio.defaultSpeaker, "volume")}
-      // TODO onChange
+      onChangeValue={(self, scroll, val) => audio.defaultSpeaker.set_volume(val)}
     />
   </HoverRevealer>
 }
@@ -157,20 +157,14 @@ const Battery = () => {
   const tooltipText = createMultiBinding(battery, ["percentage", "timeToEmpty"], ({ percentage, timeToEmpty }) =>
     `${percentage * 100}% : ` + (timeToEmpty > 3600 ? `${(timeToEmpty/3600).toFixed(1)}h` : `${(timeToEmpty/60).toFixed(0)}m`))
 
-  const motionHandler = new Gtk.EventControllerMotion()
-
-  const connectionEnterId = motionHandler.connect("enter", () => setHovered(true))
-  const connectionLeaveId = motionHandler.connect("leave", () => setHovered(false))
-
   return <Button
-    $={self => self.add_controller(motionHandler)}
-    onDestroy={() => {
-      motionHandler.disconnect(connectionEnterId)
-      motionHandler.disconnect(connectionLeaveId)
-    }}
     class="battery highlightable"
     onSecondaryClick={switchProfiles}
     tooltip_text={tooltipText}>
+    <Gtk.EventControllerMotion
+      onEnter={() => setHovered(true)}
+      onLeave={() => setHovered(false)}
+    />
     <overlay>
       <TablerIcon
         icon={createBinding(battery, "percentage").as(p => `battery-vertical${p > 0.15 ? "-" + Math.round(p / 0.25) : ""}`)}
