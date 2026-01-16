@@ -6,17 +6,17 @@ import Network from "gi://AstalNetwork";
 import TablerIcon from "../../common/components/tabler_icon";
 import { execAsync } from "ags/process";
 import PopupWindow, { PopupWindowProps } from "../../common/windows/popup";
-import { createBinding, createComputed, For} from "gnim";
+import { createBinding, createComputed, For } from "gnim";
 
 const network = Network.get_default()
 
 
-const Wifi = (wifi: Network.AccessPoint) => {//{ wifi }: { wifi: Network.AccessPoint }) => {
+const Wifi = (wifi: Network.AccessPoint) => {
   const icon = createComputed([
     createBinding(wifi, "strength"),
     createBinding(network.wifi, "active_access_point")
   ], (strength, activeWifi) =>
-    wifi === activeWifi ? "check" : (strength < 75 ? ("wifi-" + Math.floor(strength/ 25)) : "wifi")
+    wifi === activeWifi ? "check" : (strength < 75 ? ("wifi-" + Math.floor(strength / 25)) : "wifi")
   )
 
   const toggleConnection = () => {

@@ -10,7 +10,6 @@ import VolumeIndicator from "./widgets/indicators/volume";
 import BrightnessIndicator from "./widgets/indicators/brightness";
 import { reloadCss } from "./utils/style";
 import { monitorFile } from "ags/file";
-import { registerMultiWorkspace } from "./utils/monitors";
 import { registerMultiWorkspace, toggleOnCurrentMonitor } from "./utils/monitors";
 
 function start() {
