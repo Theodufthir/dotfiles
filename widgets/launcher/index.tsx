@@ -1,6 +1,6 @@
 import Gtk from "gi://Gtk";
 import Gdk from "gi://Gdk";
-import AppsSvc from "gi://AstalApps"
+import AppsSvc from "gi://AstalApps";
 import Button from "../common/components/button";
 import Graphene from "gi://Graphene";
 import { Astal } from "ags/gtk4";
@@ -25,6 +25,7 @@ const Launcher = (props: BaseWindowProps) => {
     idx %= apps.peek().length
 
     mouseLastSelect = undefined
+    listBox.select_row(null) // fix for invalid state when trying to reselect same row
     listBox.select_row(listBox.get_row_at_index(idx))
     setSelIndex(idx)
 
