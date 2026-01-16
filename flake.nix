@@ -99,6 +99,7 @@
       astal-bar.config.home.packages = [
         packages.${system}.default
         pkgs.tabler-icons
+        ags.packages.${system}.default
       ];
     };
   };
