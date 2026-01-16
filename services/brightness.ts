@@ -62,7 +62,7 @@ export default class Brightness extends GObject.Object {
     if (screen) {
       const screenPath = `/sys/class/backlight/${screen}/brightness`
       this.#screenMax = get("max")
-      this.#screenExponent = 5
+      this.#screenExponent = 4
       this.#screenWeight = 1 - (1 / this.#screenMax) ** (1 / this.#screenExponent);
       this.#screen = get("get") / (get("max") || 1)
 

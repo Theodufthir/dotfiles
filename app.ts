@@ -40,6 +40,7 @@ App.start({
       case "quit":
       case "stop":
       case "toggle":
+      case "list":
       case "launcher":
         console.log(`Instance not running: "${command}" unavailable`)
         App.quit()
@@ -63,6 +64,8 @@ App.start({
           return res("Error: window not found")
         App.toggle_window(argv[1])
         break
+      case "list":
+        return res(App.windows.map(({ name }) => name).join("\n"))
       case "launcher":
         toggleOnCurrentMonitor(Launcher)
         break

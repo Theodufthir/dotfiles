@@ -43,8 +43,8 @@ const Bar = ({ monitor = 0, ...props }: BaseWindowProps) => <BaseWindow
       <Brightness/>
       <Bluetooth/>
       <Network/>
-      <Power/>
       <Battery/>
+      <Power/>
       <Time/>
     </box>
   </centerbox>
