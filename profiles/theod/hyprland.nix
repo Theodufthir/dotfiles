@@ -228,7 +228,7 @@ in rec {
 
   # Release binds
   bindr = [
-    ''$mod, $mod_L, execr, [ "$(date +%s%3N)" -ge "$(cat /tmp/hyprland_super_timestamp)" ] || pkill wofi || wofi --show drun''
+    ''$mod, $mod_L, execr, [ "$(date +%s%3N)" -ge "$(cat /tmp/hyprland_super_timestamp)" ] || ags request -i bar launcher''
   ];
 
   # Repeated binds

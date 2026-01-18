@@ -8,7 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    astal-bar.url = "github:theodufthir/dotfiles/ags-v2-config";
+    astal-bar.url = "github:theodufthir/dotfiles/ags-v3-config";
     fprintd-55b4.url = "github:/theodufthir/libfprint/55b4-experimental";
   };
 
