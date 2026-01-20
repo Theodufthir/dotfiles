@@ -27,16 +27,19 @@ in rec {
     ",preferred,auto,auto"
   ];
 
-  windowrulev2 = [
-    "opacity 0.9 0.7 1, class:(foot)"
-    "noborder,class:(jetbrains-.*),floating:1"
-    "stayfocused,class:(jetbrains-.*),floating:1"
-    "nofocus,class:(jetbrains-.*),title:(win.*),floating:1"
+  windowrule = [
+    "opacity 0.9 0.7 1, match:class foot"
+
+    "no_focus on, rounding 0, match:class Ardour.*, match:title Ardour, match:float true"
+
+    "tag +jetbrains_popup, border_size 0, match:class (jetbrains-.*), match:float true"
+    "stay_focused on, match:tag jetbrains_popup"
+    "no_focus on, match:tag jetbrains_popup, match:title win.*"
     #"suppressevent maximize, class:.*"
   ];
 
   layerrule = [
-    "animation slide, (.*)"
+    "animation slide, blur on, blur_popups on, ignore_alpha 0, match:namespace gtk4-layer-shell"
   ];
 
   exec-once = [
@@ -88,7 +91,7 @@ in rec {
     rounding = 15;
 
     blur = {
-        enabled = false;
+        enabled = true;
         size = 8;
         passes = 2;
     };
@@ -138,7 +141,6 @@ in rec {
   misc = {
     force_default_wallpaper = "-1";
     focus_on_activate = true;
-    new_window_takes_over_fullscreen = 2;
     disable_autoreload = true; # I have to rebuild anyways
     animate_manual_resizes = true;
   };
