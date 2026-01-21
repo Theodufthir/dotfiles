@@ -18,6 +18,11 @@ hm-host-overlay args {
     settings = import ./hypridle.nix;
   };
 
+  services.hyprsunset = {
+    enable = true;
+    settings = import ./hyprsunset.nix;
+  };
+
   home.packages = with pkgs; [
     via
     foot
