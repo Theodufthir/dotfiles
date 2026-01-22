@@ -9,8 +9,8 @@
   listener = [
     {
       timeout = 240;
-      on-timeout = "b=$(brightnessctl g); brightnessctl -s set $((b/5+1))";
-      on-resume = "brightnessctl -r";
+      on-timeout = "hyprctl hyprsunset gamma 50";
+      on-resume = "hyprctl hyprsunset gamma 100";
     }
     {
       timeout = 300;
@@ -18,8 +18,7 @@
     }
     {
       timeout = 420;
-      on-timeout = ''[ "$(playerctl status)" = "Playing" ] || systemctl suspend'';
+      on-timeout = ''[ "$(playerctl status)" = "Playing" ] || systemctl suspend-then-hibernate'';
     }
-    # Maybe see if sleep-then-hibernate or fully hibernate is worth
   ];
 }
