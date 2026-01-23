@@ -54,11 +54,11 @@
         "tabler-icons": "tabler-icons"
       },
       "locked": {
-        "lastModified": 1768600048,
-        "narHash": "sha256-IsBAAe9x46ity7LW5zPDDmhu+xwC166B9goJ7VKTXqo=",
+        "lastModified": 1769128136,
+        "narHash": "sha256-m83NCSQf/PLOgg8TVKvSHVTOlePN3DV9qrFIlm7adhI=",
         "owner": "theodufthir",
         "repo": "dotfiles",
-        "rev": "d0e44263d80d84598fbd6f1e1e97546a7facfdc9",
+        "rev": "5d5de156000f6a91c953eb68cd47f0d1239dc784",
         "type": "github"
       },
       "original": {
