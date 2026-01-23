@@ -60,9 +60,6 @@
           wireplumber
           powerprofiles
           apps
-        ]) ++ (with pkgs; [
-          gjs
-          sassc
         ]);
         
         installPhase = ''
@@ -98,8 +95,9 @@
       default = self.homeManagerModules.astal-bar;
       astal-bar.config.home.packages = [
         packages.${system}.default
-        pkgs.tabler-icons
-        ags.packages.${system}.default
+        pkgs.tabler-icons # TODO move to main package
+        ags.packages.${system}.default # TODO find better for request to instance
+        pkgs.sassc # TODO check if dart-sass usable, check if JS/TS lib available
       ];
     };
   };
