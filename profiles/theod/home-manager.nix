@@ -39,11 +39,8 @@ hm-host-overlay args {
     ardour
     godot-mono
   ] ++ (with jetbrains; [
-    pycharm-professional
-    phpstorm
+    pycharm
     webstorm
-    rider
-    clion
   ]);
 
   fonts.fontconfig.enable = true;
