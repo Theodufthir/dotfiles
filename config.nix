@@ -99,6 +99,10 @@
     web-devicons.enable = true;
     smear-cursor.enable = true;
   };
+  
+  dependencies = {
+    ripgrep.enable = true;
+  };
 
   globals.mapleader = " ";
   opts = {
