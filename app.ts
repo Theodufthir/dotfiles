@@ -9,6 +9,7 @@ import BluetoothPopup from "./widgets/bar/popups/bluetooth";
 import VolumeIndicator from "./widgets/indicators/volume";
 import BrightnessIndicator from "./widgets/indicators/brightness";
 import { reloadCss } from "./utils/style";
+import { createRoot } from "ags";
 import { monitorFile } from "ags/file";
 import { registerMultiWorkspace, toggleOnCurrentMonitor } from "./utils/monitors";
 
@@ -18,13 +19,16 @@ function start() {
   monitorFile(`${SRC}/style.scss`, reloadCss)
   reloadCss()
 
-  void [
-    Launcher,
-    Bar,
-    MediaPopup,
-    AudioPopup, BluetoothPopup, NetworkPopup, PowerPopup,
-    BrightnessIndicator, VolumeIndicator
-  ].map(generator => registerMultiWorkspace(generator))
+  createRoot((dispose) => {
+    void [
+      Launcher,
+      Bar,
+      MediaPopup,
+      AudioPopup, BluetoothPopup, NetworkPopup, PowerPopup,
+      BrightnessIndicator, VolumeIndicator
+    ].map(generator => registerMultiWorkspace(generator))
+    App.connect("shutdown", dispose)
+  })
 }
 
 App.start({
