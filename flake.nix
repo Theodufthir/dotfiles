@@ -18,27 +18,21 @@
       ];
 
       allSystems = nixpkgs.lib.genAttrs systems;
-    in {
+    in rec {
+      modules = [
+        config
+        { nixpkgs.config.allowUnfree = true; }
+      ];
+
       packages = allSystems (
         system:
         let
-          buildNVim = nixvim.legacyPackages.${system}.makeNixvim;
-          nvim = buildNVim config;
-        in
-        {
-          inherit nvim;
-          default = nvim;
+          eval = nixvim.lib.evalNixvim { inherit system modules; };
+          nvim = eval.config.build.package;
+        in rec {
+          default = eval.config.build.package;
+          nvim = default;
         }
       );
-/*
-      checks = allSystems {
-        system:
-        let
-          lib = nixvim.lib.${system};
-        in {
-          checks.default = lib.check.mkTestDerivationFromNixvimModule nixvimModule;
-        }
-      };
-*/
     };
 }
