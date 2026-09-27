@@ -253,7 +253,10 @@ in rec {
   ];
 
   # Locked binds
-  bindl = [ 
+  bindl = [
+    # Keyboard language
+    "$mod, K, exec, fcitx5-remote -t \{im\}"
+
     # Mute
     ", XF86AudioMicMute, exec, amixer --default-source -m"
     ", XF86AudioMute, exec, amixer sset Master toggle"

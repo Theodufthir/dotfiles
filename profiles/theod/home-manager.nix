@@ -23,6 +23,30 @@ hm-host-overlay args {
     settings = import ./hyprsunset.nix;
   };
 
+  i18n.inputMethod = {
+    type = "fcitx5";
+    enable = true;
+    fcitx5 = {
+      waylandFrontend = true;
+      ignoreUserConfig = true;
+      addons = with pkgs; [
+        fcitx5-gtk
+        fcitx5-mozc
+      ];
+      settings = {
+        inputMethod = {
+          "Groups/0" = {
+            Name = "Default";
+            "Default Layout" = "fr";
+            DefaultIM = "keyboard-fr";
+          };
+          "Groups/0/Items/0".Name = "keyboard-fr";
+          "Groups/0/Items/1".Name = "mozc";
+        };
+      };
+    };
+  };
+
   home.packages = with pkgs; [
     via
     foot
