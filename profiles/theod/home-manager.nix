@@ -5,6 +5,7 @@ hm-host-overlay args {
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
+    configType =  "hyprlang";
     settings = import ./hyprland.nix;
   };
 
@@ -128,5 +129,5 @@ hm-host-overlay args {
   programs.btop.enable = true;
 
   programs.home-manager.enable = true;
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 }

@@ -123,7 +123,7 @@ in rec {
   };
 
   dwindle = {
-    pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mod + P in the keybinds section below
+    #pseudotile = "yes"; # master switch for pseudotiling. Enabling is bound to mod + P in the keybinds section below
     preserve_split = "yes"; # you probably want this
   };
 
@@ -194,7 +194,7 @@ in rec {
 
     "$mod SHIFT, SPACE, centerwindow,"
     "$mod, P, pseudo,"
-    "$mod, J, togglesplit,"
+    #"$mod, J, togglesplit,"
 
     # Workspaces
     "$mod, ESCAPE, togglespecialworkspace, magic"
