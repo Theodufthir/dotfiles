@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    nixvim.url = "github:theodufthir/dotfiles/nixvim";
     astal-bar.url = "github:theodufthir/dotfiles/ags-v3-config";
     fprintd-55b4.url = "github:/theodufthir/libfprint/55b4-experimental";
   };

@@ -1,10 +1,11 @@
-{ self, fprintd-55b4, astal-bar, ... }@inputs:
+{ self, fprintd-55b4, astal-bar, nixvim, ... }@inputs:
 with (import ./common.nix inputs); {
   yoga = nixosSystem rec {
     folder = "yoga";
     system = "x86_64-linux";
     specialArgs = {
-	    astal-bar = astal-bar.homeManagerModules.default;
+      astal-bar = astal-bar.homeManagerModules.default;
+      nixvim = nixvim.packages.${system}.default;
     };
     overlays = [
       (final: prev: {
@@ -21,7 +22,8 @@ with (import ./common.nix inputs); {
     folder = "desk";
     system = "x86_64-linux";
     specialArgs = {
-	    astal-bar = astal-bar.homeManagerModules.default;
+      astal-bar = astal-bar.homeManagerModules.default;
+      nixvim = nixvim.packages.${system}.default;
     };
     overlays = [
       (final: prev: {

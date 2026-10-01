@@ -1,6 +1,6 @@
-{ pkgs, astal-bar, ... }@args: hm-host-overlay:
+{ pkgs, astal-bar, nixvim, ... }@args: hm-host-overlay:
 hm-host-overlay args {
-  imports = [ astal-bar ];
+  imports = [astal-bar];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -66,7 +66,9 @@ hm-host-overlay args {
   ] ++ (with jetbrains; [
     pycharm
     webstorm
-  ]);
+  ]) ++ [
+    nixvim
+  ];
 
   fonts.fontconfig.enable = true;
 
@@ -85,13 +87,6 @@ hm-host-overlay args {
       name = "Théo Dufour";
       email = "theo.dufthir@gmail.com";
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    inherit (import ./neovim.nix) extraConfig;
-    vimAlias = true;
-    defaultEditor = true;
   };
 
   programs.bash = {
