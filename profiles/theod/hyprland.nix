@@ -170,6 +170,7 @@ in rec {
     # Clients
     "$mod, Return, exec, foot"
     "$mod SHIFT, Return, exec, [float] foot"
+    ''$mod ALT, Return, exec, foot --working-directory="$(readlink /proc/$(ps --ppid $(hyprctl activewindow -j | jq '.pid') -o pid h)/cwd)"''
     "$mod, Q, killactive,"
     
     '', $mod_L, exec, echo "$(($(date +%s%3N) + $super_press_delay))" > /tmp/hyprland_super_timestamp''
